@@ -15,6 +15,7 @@ import { AppFormCheckbox } from "../app-form-checkbox/app-form-checkbox";
 import { AppFormMultiSelect } from "../app-form-multi-select/app-form-multi-select";
 import { AppFormDateRange } from "../app-form-date-range/app-form-date-range";
 import { AppFormHidden } from "../app-form-hidden/app-form-hidden";
+import { AppFormFieldErrorBoundary } from "../app-form-field-error-boundary/app-form-field-error-boundary";
 
 // Types
 import type { Field } from "../app-form/form-types";
@@ -34,51 +35,74 @@ export const AppFormFieldRenderer = component$<AppFormFieldRendererProps>((props
         switch (field.type) {
           case "fieldArray":
             return (
-              <AppFormFieldArray
-                key={field.name}
-                field={field}
-                formStore={formStore}
-              />
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormFieldArray field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
             );
 
           case "combobox":
             return (
-              <AppFormArrayCombobox
-                key={field.name}
-                field={field}
-                formStore={formStore}
-              />
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormArrayCombobox field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
             );
 
           case "fieldset":
             return (
-              <AppFormFieldset
-                key={field.name}
-                field={field}
-                formStore={formStore}
-              />
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormFieldset field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
             );
 
           case "submit":
-            return <AppFormSubmit key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormSubmit field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           case "checkbox":
-            return <AppFormCheckbox key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormCheckbox field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           case "textarea":
-            return <AppFormTextarea key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormTextarea field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           case "date":
-            return <AppFormDate key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormDate field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           case "dateRange":
-            return <AppFormDateRange key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormDateRange field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           case "select":
-            return <AppFormSelect key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormSelect field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           case "multiSelect":
-            return <AppFormMultiSelect key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormMultiSelect field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
+
           case "text":
           case "email":
           case "password":
@@ -87,10 +111,18 @@ export const AppFormFieldRenderer = component$<AppFormFieldRendererProps>((props
           case "color":
           case "number":
           case "range":
-            return <AppFormInput key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormInput field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           case "hidden":
-            return <AppFormHidden key={field.name} field={field} formStore={formStore} />;
+            return (
+              <AppFormFieldErrorBoundary key={field.name} fieldName={field.name}>
+                <AppFormHidden field={field} formStore={formStore} />
+              </AppFormFieldErrorBoundary>
+            );
 
           default:
             console.warn(`Unknown field type: ${field.type}`);

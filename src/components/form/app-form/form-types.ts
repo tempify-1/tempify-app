@@ -14,7 +14,6 @@ export type FieldType =
   | "color"
   | "number"
   | "range"
-  | "radio"
   | "select"
   | "multiSelect"
   | "fieldArray"

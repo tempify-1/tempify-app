@@ -1,6 +1,6 @@
 // 1. Imports
-import { component$, useStyles$ } from "@builder.io/qwik";
-import { Form, type FormStore } from "@modular-forms/qwik";
+import { component$, useStyles$, type QRL } from "@builder.io/qwik";
+import { Form, type FormStore, type SubmitHandler } from "@modular-forms/qwik";
 import styles from "./app-form.css?inline";
 
 // Components
@@ -20,7 +20,7 @@ export interface AppFormProps {
   class?: string;
   id?: string;
   fields?: Field[];
-  onSubmit$?: any; // QRL<SubmitHandler<T>>
+  onSubmit$?: QRL<SubmitHandler<any>>;
   formClass?: string;
 }
 
