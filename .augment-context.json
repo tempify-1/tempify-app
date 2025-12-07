@@ -1,0 +1,17 @@
+{
+  "$schema": "https://augmentcode.com/schemas/augment-context.json",
+  "version": "1.0",
+  "description": "Augment context configuration for Tempify App - Qwik + Payload CMS project",
+  "groups": [
+    {
+      "name": "Documentation",
+      "description": "Project documentation and best practices",
+      "paths": [
+        "docs/qwik-best-practices.md",
+        "docs/qwik-ui-framework.md",
+        "docs/payload-cms.md"
+      ]
+    }
+  ]
+}
+
