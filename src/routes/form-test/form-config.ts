@@ -1,6 +1,6 @@
 import { email, minLength, required } from "@modular-forms/qwik";
 
-import { Field } from "~/components/form/mf-form/form-types";
+import { Field } from "~/components/form/app-form/form-types";
 
 export const fields: Field[] = [
   {

@@ -8,12 +8,12 @@ import {
 } from "@modular-forms/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import {
-  ModularForm,
+  AppForm,
   getFieldArrays,
   getInitialFormValues,
-} from "~/components/form/mf-form/mf-form";
+} from "~/components/form/app-form/app-form";
 import { type FormData, fields } from "~/routes/form-test/form-config";
-import { Field } from "~/components/form/mf-form/form-types";
+import { Field } from "~/components/form/app-form/form-types";
 
 export const useFormLoader = routeLoader$<InitialValues<FormData>>(() =>
   getInitialFormValues(fields),
@@ -51,7 +51,7 @@ export default component$(() => {
 
       <main>
         <section class="bg-white p-8 dark:bg-gray-800">
-          <ModularForm
+          <AppForm
             formStore={loginForm as any}
             debug={true}
             onSubmit$={handleSubmit}
