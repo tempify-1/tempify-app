@@ -20,6 +20,8 @@ import type { AppBlockLogoTickerData } from "../app-blocks/app-block-logo-ticker
 import type { AppBlockLinkData } from "../app-blocks/app-block-link/app-block-link";
 import type { AppBlockCardData } from "../app-blocks/app-block-card/app-block-card";
 import type { AppBlockCarouselData } from "../app-blocks/app-block-carousel/app-block-carousel";
+import type { AppBlockAvatarData } from "../app-blocks/app-block-avatar/app-block-avatar";
+import type { AppBlockTimelineData } from "../app-blocks/app-block-timeline/app-block-timeline";
 
 /**
  * Standard Flowbite/Tailwind theme colors plus transparent
@@ -125,11 +127,20 @@ export interface AppBlockCarouselBlockProps extends AppBlockCarouselData {
   blockType: "carousel";
 }
 
+export interface AppBlockAvatarBlockProps extends AppBlockAvatarData {
+  blockType: "avatar";
+}
+
+export interface AppBlockTimelineBlockProps extends AppBlockTimelineData {
+  blockType: "timeline";
+}
+
 /**
  * Union type of all content blocks with discriminator
  */
 export type ContentBlock =
   | AppBlockAccordionProps
+  | AppBlockAvatarBlockProps
   | AppBlockBadgeBlockProps
   | AppBlockBreadcrumbBlockProps
   | AppBlockButtonRowBlockProps
@@ -141,6 +152,7 @@ export type ContentBlock =
   | AppBlockLinkBlockProps
   | AppBlockLogoTickerBlockProps
   | AppBlockTileBlockProps
+  | AppBlockTimelineBlockProps
   | AppBlockEyebrowBlockProps
   | AppBlockHeadingBlockProps
   | AppBlockMediaBlockProps

@@ -37,6 +37,8 @@ export interface AppBlockTileData extends AnimationProps {
   backgroundTheme?: ThemeColor;
   foregroundTheme?: ForegroundThemeColor;
   icon?: TileIconConfig;
+  /** Whether the tile should be sticky (enables card stacking effect) */
+  sticky?: boolean;
   class?: string;
 }
 
@@ -82,6 +84,7 @@ export const AppBlockTile = component$<AppBlockTileComponentProps>((props) => {
     backgroundTheme = "gray",
     foregroundTheme = "gray",
     icon,
+    sticky = false,
     class: className,
     animation = "fade-up",
     animationPlacement = "center-center",
@@ -105,6 +108,7 @@ export const AppBlockTile = component$<AppBlockTileComponentProps>((props) => {
     backgroundClasses.dark,
     foregroundClasses.light,
     foregroundClasses.dark,
+    sticky ? "sticky top-0" : "",
     className,
   ]
     .filter(Boolean)
@@ -120,8 +124,16 @@ export const AppBlockTile = component$<AppBlockTileComponentProps>((props) => {
     return <Icon class={iconClasses} />;
   };
 
+  // Don't animate sticky tiles - animations interfere with the stacking effect
+  const aosProps = sticky ? {} : {
+    "data-aos": animation,
+    "data-aos-placement": animationPlacement,
+    "data-aos-easing": animationEasing,
+    "data-aos-delay": (columnNumber * blockNumber) * 50,
+  };
+
   return (
-    <div class={combinedClasses} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50}>
+    <div class={combinedClasses} {...aosProps}>
       {renderIcon()}
       <AppBlockRichText columnNumber={columnNumber} blockNumber={blockNumber} richText={richText} />
     </div>

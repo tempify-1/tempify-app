@@ -961,6 +961,239 @@ export default component$(() => {
       ],
     },
 
+    // Section 2.6.1: Sticky Cards Stacking Example
+    {
+      tag: "section",
+      backgroundTheme: "indigo",
+      foregroundTheme: "white",
+      shape: "rectangle",
+      height: "auto",
+      gutter: ["horizontal-lg", "vertical-xl"],
+      columnLayout: { xs: 1, sm: 1, md: 1, lg: 1, xl: 1, "2xl": 1 },
+      columns: [
+        {
+          contentBlocks: [
+            {
+              blockType: "eyebrow",
+              content: "Scroll Effect",
+              tag: "p",
+              size: "sm",
+            },
+            {
+              blockType: "heading",
+              content: "Sticky Card Stacking",
+              tag: "h2",
+              size: "4xl",
+            },
+            {
+              blockType: "card",
+              sticky: true,
+              media: {
+                id: 10,
+                alt: "Mountain landscape",
+                caption: null,
+                updatedAt: "2025-12-03T08:41:21.445Z",
+                createdAt: "2025-12-03T00:33:47.091Z",
+                url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+                thumbnailURL: null,
+                filename: "mountain.jpg",
+                mimeType: "image/jpeg",
+                filesize: 2048000,
+                width: 1920,
+                height: 1080,
+                focalX: 50,
+                focalY: 50,
+              },
+              richText: {
+                root: {
+                  type: "root",
+                  children: [
+                    {
+                      type: "heading",
+                      children: [
+                        {
+                          type: "text",
+                          detail: 0,
+                          format: 0,
+                          mode: "normal",
+                          style: "",
+                          text: "Mountain Adventures",
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      tag: "h3",
+                      version: 1,
+                    },
+                    {
+                      type: "paragraph",
+                      children: [
+                        {
+                          type: "text",
+                          detail: 0,
+                          format: 0,
+                          mode: "normal",
+                          style: "",
+                          text: "Explore breathtaking mountain landscapes and discover nature's beauty.",
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      version: 1,
+                    },
+                  ],
+                  direction: "ltr",
+                  format: "",
+                  indent: 0,
+                  version: 1,
+                },
+              },
+            },
+            {
+              blockType: "card",
+              sticky: true,
+              media: {
+                id: 11,
+                alt: "Ocean waves",
+                caption: null,
+                updatedAt: "2025-12-03T08:41:21.445Z",
+                createdAt: "2025-12-03T00:33:47.091Z",
+                url: "https://images.unsplash.com/photo-1505142468610-359e7d316be0",
+                thumbnailURL: null,
+                filename: "ocean.jpg",
+                mimeType: "image/jpeg",
+                filesize: 1920000,
+                width: 1920,
+                height: 1280,
+                focalX: 50,
+                focalY: 50,
+              },
+              richText: {
+                root: {
+                  type: "root",
+                  children: [
+                    {
+                      type: "heading",
+                      children: [
+                        {
+                          type: "text",
+                          detail: 0,
+                          format: 0,
+                          mode: "normal",
+                          style: "",
+                          text: "Ocean Escapes",
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      tag: "h3",
+                      version: 1,
+                    },
+                    {
+                      type: "paragraph",
+                      children: [
+                        {
+                          type: "text",
+                          detail: 0,
+                          format: 0,
+                          mode: "normal",
+                          style: "",
+                          text: "Discover serene beaches and crystal-clear waters.",
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      version: 1,
+                    },
+                  ],
+                  direction: "ltr",
+                  format: "",
+                  indent: 0,
+                  version: 1,
+                },
+              },
+            },
+            {
+              blockType: "card",
+              sticky: true,
+              media: {
+                id: 12,
+                alt: "Forest path",
+                caption: null,
+                updatedAt: "2025-12-03T08:41:21.445Z",
+                createdAt: "2025-12-03T00:33:47.091Z",
+                url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+                thumbnailURL: null,
+                filename: "forest.jpg",
+                mimeType: "image/jpeg",
+                filesize: 1850000,
+                width: 1920,
+                height: 1280,
+                focalX: 50,
+                focalY: 50,
+              },
+              richText: {
+                root: {
+                  type: "root",
+                  children: [
+                    {
+                      type: "heading",
+                      children: [
+                        {
+                          type: "text",
+                          detail: 0,
+                          format: 0,
+                          mode: "normal",
+                          style: "",
+                          text: "Forest Trails",
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      tag: "h3",
+                      version: 1,
+                    },
+                    {
+                      type: "paragraph",
+                      children: [
+                        {
+                          type: "text",
+                          detail: 0,
+                          format: 0,
+                          mode: "normal",
+                          style: "",
+                          text: "Walk through enchanting forests and reconnect with nature.",
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      version: 1,
+                    },
+                  ],
+                  direction: "ltr",
+                  format: "",
+                  indent: 0,
+                  version: 1,
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+
     // Section 2.7: Carousel Example
     {
       tag: "section",
@@ -1215,6 +1448,138 @@ export default component$(() => {
                         {
                           type: "paragraph",
                           children: [{ type: "text", detail: 0, format: 0, mode: "normal", style: "", text: "Discover vibrant city life and culture.", version: 1 }],
+                          direction: "ltr",
+                          format: "",
+                          indent: 0,
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      version: 1,
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+
+    // Section 2.8: Timeline Example
+    {
+      tag: "section",
+      backgroundTheme: "transparent",
+      foregroundTheme: "gray",
+      shape: "rectangle",
+      height: "auto",
+      gutter: ["horizontal-lg", "vertical-xl"],
+      columnLayout: { xs: 1, sm: 1, md: 2, lg: 2, xl: 2, "2xl": 2 },
+      columns: [
+        {
+          contentBlocks: [
+            {
+              blockType: "eyebrow",
+              content: "New Component",
+              tag: "p",
+              size: "sm",
+            },
+            {
+              blockType: "heading",
+              content: "Timeline Component",
+              tag: "h2",
+              size: "4xl",
+            },
+            {
+              blockType: "richText",
+              richText: {
+                root: {
+                  type: "root",
+                  children: [
+                    {
+                      type: "paragraph",
+                      children: [{ type: "text", detail: 0, format: 0, mode: "normal", style: "", text: "Display events, milestones, or processes in a chronological timeline format. Supports icons, rich text body content, and horizontal layout.", version: 1 }],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      version: 1,
+                    },
+                  ],
+                  direction: "ltr",
+                  format: "",
+                  indent: 0,
+                  version: 1,
+                },
+              },
+            },
+          ],
+        },
+        {
+          contentBlocks: [
+            {
+              blockType: "timeline",
+              items: [
+                {
+                  title: "Application UI code in Tailwind CSS",
+                  time: "February 2022",
+                  icon: "IconCalendarMonthOutline",
+                  body: {
+                    root: {
+                      type: "root",
+                      children: [
+                        {
+                          type: "paragraph",
+                          children: [{ type: "text", detail: 0, format: 0, mode: "normal", style: "", text: "Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.", version: 1 }],
+                          direction: "ltr",
+                          format: "",
+                          indent: 0,
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      version: 1,
+                    },
+                  },
+                },
+                {
+                  title: "Marketing UI design in Figma",
+                  time: "March 2022",
+                  icon: "IconPenNibOutline",
+                  body: {
+                    root: {
+                      type: "root",
+                      children: [
+                        {
+                          type: "paragraph",
+                          children: [{ type: "text", detail: 0, format: 0, mode: "normal", style: "", text: "All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.", version: 1 }],
+                          direction: "ltr",
+                          format: "",
+                          indent: 0,
+                          version: 1,
+                        },
+                      ],
+                      direction: "ltr",
+                      format: "",
+                      indent: 0,
+                      version: 1,
+                    },
+                  },
+                },
+                {
+                  title: "E-Commerce UI code in Tailwind CSS",
+                  time: "April 2022",
+                  icon: "IconCartOutline",
+                  body: {
+                    root: {
+                      type: "root",
+                      children: [
+                        {
+                          type: "paragraph",
+                          children: [{ type: "text", detail: 0, format: 0, mode: "normal", style: "", text: "Get started with dozens of web components and interactive elements built with Tailwind CSS.", version: 1 }],
                           direction: "ltr",
                           format: "",
                           indent: 0,

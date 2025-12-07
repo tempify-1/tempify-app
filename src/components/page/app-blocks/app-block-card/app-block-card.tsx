@@ -17,6 +17,8 @@ export interface AppBlockCardData extends AnimationProps {
   media?: AppBlockMediaData;
   /** Rich text content for the card body */
   richText?: PayloadRichText;
+  /** Whether the card should be sticky (enables card stacking effect) */
+  sticky?: boolean;
   /** Custom class for the card */
   class?: string;
 }
@@ -39,6 +41,7 @@ export const AppBlockCard = component$<AppBlockCardProps>((props) => {
     href,
     media,
     richText,
+    sticky = false,
     class: className,
     animation = "fade-up",
     animationPlacement = "center-center",
@@ -46,6 +49,8 @@ export const AppBlockCard = component$<AppBlockCardProps>((props) => {
     columnNumber,
     blockNumber,
   } = props;
+
+  const stickyClass = sticky ? "sticky top-0" : "";
 
   // Build imgAs prop using AppBlockMedia if media is provided
   const renderMedia = () => {
@@ -57,12 +62,13 @@ export const AppBlockCard = component$<AppBlockCardProps>((props) => {
         columnNumber={columnNumber}
         blockNumber={blockNumber}
         // Override animation to none since parent card handles animation
-        animation={undefined}
+        animation={'none'}
       />
     );
   };
 
-  const aosProps = {
+  // Don't animate sticky cards - animations interfere with the stacking effect
+  const aosProps = sticky ? {} : {
     "data-aos": animation,
     "data-aos-placement": animationPlacement,
     "data-aos-easing": animationEasing,
@@ -70,7 +76,7 @@ export const AppBlockCard = component$<AppBlockCardProps>((props) => {
   };
 
   return (
-    <div {...aosProps}>
+    <div {...aosProps} class={stickyClass || undefined}>
       <Card
         horizontal={horizontal}
         href={href}
@@ -83,7 +89,7 @@ export const AppBlockCard = component$<AppBlockCardProps>((props) => {
             columnNumber={columnNumber}
             blockNumber={blockNumber}
             // Override animation to none since parent card handles animation
-            animation={undefined}
+            animation='none'
           />
         )}
       </Card>

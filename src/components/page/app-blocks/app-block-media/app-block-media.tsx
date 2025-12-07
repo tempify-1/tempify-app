@@ -45,12 +45,13 @@ export const AppBlockMedia = component$((props: AppBlockMediaProps) => {
   // Calculate object position from focal point
   const objectPosition = `${focalX}% ${focalY}%`;
 
-  const aosProps = {
+  // Don't add AOS props if animation is 'none' or undefined
+  const aosProps = animation && animation !== 'none' ? {
     "data-aos": animation,
     "data-aos-placement": animationPlacement,
     "data-aos-easing": animationEasing,
     "data-aos-delay": (columnNumber * blockNumber) * 50,
-  };
+  } : {};
 
   if (isImage) {
     return (

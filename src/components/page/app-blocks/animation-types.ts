@@ -2,6 +2,8 @@
  * Animation type options for AOS-style animations
  */
 export type AnimationType =
+  // No animation
+  | 'none'
   // Fade animations
   | 'fade'
   | 'fade-up'

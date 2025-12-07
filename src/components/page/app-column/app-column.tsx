@@ -17,6 +17,8 @@ import { AppBlockLogoTicker } from "../app-blocks/app-block-logo-ticker/app-bloc
 import { AppBlockLink } from "../app-blocks/app-block-link/app-block-link";
 import { AppBlockCard } from "../app-blocks/app-block-card/app-block-card";
 import { AppBlockCarousel } from "../app-blocks/app-block-carousel/app-block-carousel";
+import { AppBlockAvatar } from "../app-blocks/app-block-avatar/app-block-avatar";
+import { AppBlockTimeline } from "../app-blocks/app-block-timeline/app-block-timeline";
 import type { ContentBlock } from "../app-section/app-section";
 
 export interface AppColumnProps {
@@ -148,6 +150,8 @@ export const AppColumn = component$((props: AppColumnProps) => {
     switch (block.blockType) {
       case "accordion":
         return <AppBlockAccordion key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
+      case "avatar":
+        return <AppBlockAvatar key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
       case "badge":
         return <AppBlockBadge key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
       case "breadcrumb":
@@ -182,6 +186,8 @@ export const AppColumn = component$((props: AppColumnProps) => {
         return <AppBlockRichText key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
       case "tabs":
         return <AppBlockTabs key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
+      case "timeline":
+        return <AppBlockTimeline key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
       default:
         return null;
     }
