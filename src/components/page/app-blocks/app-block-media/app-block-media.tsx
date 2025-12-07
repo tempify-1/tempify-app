@@ -3,6 +3,7 @@ import { Image } from "@unpic/qwik";
 import type { AnimationProps } from "../animation-types";
 
 export interface AppBlockMediaData extends AnimationProps {
+  blockId?: string;
   id: number;
   alt: string;
   caption?: string | null;

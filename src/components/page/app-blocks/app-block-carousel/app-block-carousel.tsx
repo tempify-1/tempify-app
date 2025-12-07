@@ -4,6 +4,7 @@ import { AppBlockCard, type AppBlockCardData } from "../app-block-card/app-block
 import { Carousel, type CarouselProps } from "~/components/ui/carousel/carousel";
 
 export interface AppBlockCarouselData extends AnimationProps, Omit<CarouselProps, "class"> {
+  blockId?: string;
   cards: AppBlockCardData[];
   class?: string;
 }

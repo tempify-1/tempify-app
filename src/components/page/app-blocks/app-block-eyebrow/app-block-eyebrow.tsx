@@ -1,5 +1,6 @@
 import { component$, type FunctionComponent } from "@builder.io/qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
+import { sanitizeHtml } from "~/utils/sanitize-html";
 
 type DynamicTagComponent = FunctionComponent<Record<string, unknown>>;
 
@@ -17,6 +18,7 @@ export type EyebrowTag =
 export type TextSize = "base" | "sm" | "xs";
 
 export interface AppBlockEyebrowData extends AnimationProps {
+  blockId?: string;
   tag?: EyebrowTag;
   size?: TextSize;
   content: string;
@@ -35,14 +37,15 @@ const sizeClassMap: Record<TextSize, string> = {
 };
 
 export const AppBlockEyebrow = component$((props: AppBlockEyebrowProps) => {
-  const { tag = "p", size = "xs", content, class: className, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber, ...restProps } = props;
+  const { tag = "p", size = "xs", content, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...restProps } = props;
 
   const Tag = tag as unknown as DynamicTagComponent;
   const sizeClass = sizeClassMap[size];
   const combinedClasses = `eye-brow uppercase ${sizeClass} ${className || ""}`.trim();
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <Tag {...restProps} class={combinedClasses} dangerouslySetInnerHTML={content} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50}>
+    <Tag {...restProps} class={combinedClasses} dangerouslySetInnerHTML={sanitizeHtml(content)} {...aosProps}>
     </Tag>
   );
 });

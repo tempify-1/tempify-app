@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Avatar } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 
 type AvatarColor = 'failure' | 'gray' | 'info' | 'pink' | 'purple' | 'success' | 'warning';
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -8,6 +8,7 @@ type AvatarStatus = 'away' | 'busy' | 'offline' | 'online';
 type AvatarStatusPosition = 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center' | 'center-right';
 
 export interface AppBlockAvatarData extends AnimationProps {
+  blockId?: string;
   alt?: string;
   bordered?: boolean;
   img?: string;
@@ -39,23 +40,19 @@ export const AppBlockAvatar = component$<AppBlockAvatarProps>((props) => {
     statusPosition,
     placeholderInitials,
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
 
   const defaultClass = "avatar";
   const combinedClasses = `${defaultClass} ${className || ""}`.trim();
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div
-      data-aos={animation}
-      data-aos-placement={animationPlacement}
-      data-aos-easing={animationEasing}
-      data-aos-delay={(columnNumber * blockNumber) * 50}
-    >
+    <div {...aosProps}>
       <Avatar
         alt={alt}
         bordered={bordered}

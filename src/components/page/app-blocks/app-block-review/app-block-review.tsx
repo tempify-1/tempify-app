@@ -1,8 +1,9 @@
 import { component$ } from "@builder.io/qwik";
 import { Rating, type RatingSize } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 
 export interface AppBlockReviewData extends AnimationProps {
+  blockId?: string;
   rating?: number;
   scale?: number;
   size?: RatingSize;
@@ -13,30 +14,31 @@ export interface AppBlockReviewData extends AnimationProps {
   class?: string;
 }
 
-export interface AppBlockReviewComponentProps extends AppBlockReviewData {
+export interface AppBlockReviewProps extends AppBlockReviewData {
   columnNumber: number;
   blockNumber: number;
 }
 
-export const AppBlockReview = component$<AppBlockReviewComponentProps>((props) => {
+export const AppBlockReview = component$<AppBlockReviewProps>((props) => {
   const {
     rating,
     scale = 5,
     size = "md",
     reviewLink,
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
 
   const defaultClass = "app-block-review";
   const combinedClasses = `${defaultClass} ${className || ""}`.trim();
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div class={combinedClasses} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50}>
+    <div class={combinedClasses} {...aosProps}>
       <Rating
         rating={rating}
         scale={scale}

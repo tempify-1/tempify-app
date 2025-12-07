@@ -1,9 +1,10 @@
 import { component$, useStyles$ } from "@builder.io/qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { AppBlockMedia, type AppBlockMediaData } from "../app-block-media/app-block-media";
 import styles from "./app-block-logo-ticker.css?inline";
 
 export interface AppBlockLogoTickerData extends AnimationProps {
+  blockId?: string;
   logos: AppBlockMediaData[];
   duration?: number;
   reverse?: boolean;
@@ -31,9 +32,9 @@ export const AppBlockLogoTicker = component$<AppBlockLogoTickerProps>((props) =>
     itemWidth = 150,
     repeatCount = 4,
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
@@ -66,6 +67,7 @@ export const AppBlockLogoTicker = component$<AppBlockLogoTickerProps>((props) =>
 
   // Calculate animation duration based on number of logos
   const adjustedDuration = (duration / 4) * repeatCount;
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
     <div
@@ -74,10 +76,7 @@ export const AppBlockLogoTicker = component$<AppBlockLogoTickerProps>((props) =>
         "--ticker-duration": `${adjustedDuration}s`,
         "--ticker-item-width": `${itemWidth}px`,
       }}
-      data-aos={animation}
-      data-aos-placement={animationPlacement}
-      data-aos-easing={animationEasing}
-      data-aos-delay={columnNumber * blockNumber * 50}
+      {...aosProps}
     >
       <div class={trackClasses}>
         {/* First set of repeated logos */}

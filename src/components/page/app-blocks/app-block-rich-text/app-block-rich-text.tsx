@@ -125,9 +125,10 @@ export interface PayloadRichText {
   root: SerializedRootNode;
 }
 
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 
 export interface AppBlockRichTextData extends AnimationProps {
+  blockId?: string;
   richText?: PayloadRichText;
   class?: string;
 }
@@ -137,11 +138,58 @@ export interface AppBlockRichTextProps extends AppBlockRichTextData {
   blockNumber: number;
 }
 
+// Lexical text format bitmask values
+const TEXT_FORMAT = {
+  BOLD: 1,
+  ITALIC: 2,
+  STRIKETHROUGH: 4,
+  UNDERLINE: 8,
+  CODE: 16,
+  SUBSCRIPT: 32,
+  SUPERSCRIPT: 64,
+} as const;
+
+// Apply text formatting based on bitmask
+const applyTextFormat = (text: string, format: number, key: number): JSXOutput => {
+  let result: JSXOutput = text;
+
+  // Apply formats from innermost to outermost
+  if (format & TEXT_FORMAT.CODE) {
+    result = <code key={`${key}-code`} class="bg-gray-100 dark:bg-gray-800 px-1 rounded font-mono text-sm">{result}</code>;
+  }
+  if (format & TEXT_FORMAT.SUBSCRIPT) {
+    result = <sub key={`${key}-sub`}>{result}</sub>;
+  }
+  if (format & TEXT_FORMAT.SUPERSCRIPT) {
+    result = <sup key={`${key}-sup`}>{result}</sup>;
+  }
+  if (format & TEXT_FORMAT.STRIKETHROUGH) {
+    result = <s key={`${key}-s`}>{result}</s>;
+  }
+  if (format & TEXT_FORMAT.UNDERLINE) {
+    result = <u key={`${key}-u`}>{result}</u>;
+  }
+  if (format & TEXT_FORMAT.ITALIC) {
+    result = <em key={`${key}-em`}>{result}</em>;
+  }
+  if (format & TEXT_FORMAT.BOLD) {
+    result = <strong key={`${key}-strong`}>{result}</strong>;
+  }
+
+  return result;
+};
+
 // Renderer function
 const renderNode = (node: SerializedNode, index: number): JSXOutput => {
   switch (node.type) {
-    case "text":
-      return <span key={index}>{node.text}</span>;
+    case "text": {
+      // If no formatting, return plain span
+      if (!node.format || node.format === 0) {
+        return <span key={index}>{node.text}</span>;
+      }
+      // Apply text formatting based on bitmask
+      return <span key={index}>{applyTextFormat(node.text, node.format, index)}</span>;
+    }
 
     case "link": {
       const href = node.fields.url || "#";
@@ -236,14 +284,16 @@ const renderNode = (node: SerializedNode, index: number): JSXOutput => {
 };
 
 export const AppBlockRichText = component$<AppBlockRichTextProps>((props) => {
-  const { richText, class: className, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber } = props;
+  const { richText, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
 
   if (!richText?.root) {
     return null;
   }
 
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
+
   return (
-    <div class={className} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50}>
+    <div class={className} {...aosProps}>
       {richText.root.children.map((child, i) => renderNode(child, i))}
     </div>
   );

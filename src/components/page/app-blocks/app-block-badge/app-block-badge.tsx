@@ -1,12 +1,13 @@
 import { component$ } from "@builder.io/qwik";
 import { Badge } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 
 type BadgeType = 'blue' | 'dark' | 'green' | 'red' | 'yellow' | 'indigo' | 'purple' | 'pink' | 'default';
 type BadgeSize = 'xs' | 'sm';
 
 export interface AppBlockBadgeData extends AnimationProps {
+  blockId?: string;
   content: string;
   type?: BadgeType;
   size?: BadgeSize;
@@ -22,12 +23,13 @@ export interface AppBlockBadgeProps extends AppBlockBadgeData {
 }
 
 export const AppBlockBadge = component$<AppBlockBadgeProps>((props) => {
-  const { class: className, icon, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber, ...restProps } = props;
+  const { class: className, icon, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...restProps } = props;
 
   const defaultClass = "badge";
   const combinedClasses = `${defaultClass} ${className || ""}`.trim();
   const IconComponent = icon ? getIcon(icon) : undefined;
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
-  return <Badge {...restProps} icon={IconComponent} class={combinedClasses} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50} />;
+  return <Badge {...restProps} icon={IconComponent} class={combinedClasses} {...aosProps} />;
 });
 

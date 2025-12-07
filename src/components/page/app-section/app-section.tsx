@@ -2,25 +2,14 @@ import { component$, useStyles$, type FunctionComponent } from "@builder.io/qwik
 import styles from "./app-section.css?inline";
 import { AppColumn } from "../app-column/app-column";
 import { AppBackground } from "../app-background/app-background";
-import type { ThemeColor, GutterSize } from "../types/theme-types";
+import type { GutterSize } from "../types/theme-types";
+import { sectionBackgroundThemeClassMap } from "../types/theme-types";
 import type { SectionProps } from "../types/section-types";
 
 type DynamicTagComponent = FunctionComponent<Record<string, unknown>>;
 
 export type { ThemeColor, ForegroundThemeColor, GutterSize, GutterDirection } from "../types/theme-types";
 export type { ContentBlock, ColumnDefinition, SectionProps } from "../types/section-types";
-
-const backgroundThemeClassMap: Record<ThemeColor, { light: string; dark: string }> = {
-  blue: { light: "bg-gradient-to-br from-blue-100 to-indigo-200", dark: "dark:from-blue-900 dark:to-indigo-950" },
-  red: { light: "bg-gradient-to-br from-red-100 to-pink-200", dark: "dark:from-red-900 dark:to-pink-950" },
-  green: { light: "bg-gradient-to-br from-green-100 to-blue-200", dark: "dark:from-green-900 dark:to-blue-950" },
-  yellow: { light: "bg-gradient-to-br from-yellow-100 to-green-200", dark: "dark:from-yellow-900 dark:to-green-950" },
-  purple: { light: "bg-gradient-to-br from-purple-100 to-pink-200", dark: "dark:from-purple-900 dark:to-pink-950" },
-  pink: { light: "bg-gradient-to-br from-pink-100 to-red-200", dark: "dark:from-pink-900 dark:to-red-950" },
-  indigo: { light: "bg-gradient-to-br from-indigo-100 to-purple-200", dark: "dark:from-indigo-900 dark:to-purple-950" },
-  gray: { light: "bg-gradient-to-br from-gray-100 to-gray-200", dark: "dark:from-gray-900 dark:to-gray-950" },
-  transparent: { light: "bg-transparent", dark: "dark:bg-transparent" },
-};
 
 const shapeClassMap = {
   round: "round-shape",
@@ -51,7 +40,7 @@ export const AppSection = component$((props: SectionProps) => {
 
   // Get classes from maps using the prop values
   const shapeClass = shapeClassMap[shape];
-  const backgroundThemeClasses = backgroundThemeClassMap[backgroundTheme];
+  const backgroundThemeClasses = sectionBackgroundThemeClassMap[backgroundTheme];
   const backgroundThemeClass = `${backgroundThemeClasses.light} ${backgroundThemeClasses.dark}`;
 
   // Build CSS variables for grid columns

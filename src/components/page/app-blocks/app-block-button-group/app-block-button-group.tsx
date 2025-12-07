@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Button, ButtonGroup } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 
 type ButtonProps = Omit<Parameters<typeof Button>[0], 'prefix' | 'suffix'>;
@@ -12,6 +12,7 @@ export interface AppBlockButtonGroupButtonProps extends ButtonProps {
 }
 
 export interface AppBlockButtonGroupData extends AnimationProps {
+  blockId?: string;
   buttons?: AppBlockButtonGroupButtonProps[];
   outline?: boolean;
   class?: string;
@@ -23,29 +24,28 @@ export interface AppBlockButtonGroupProps extends AppBlockButtonGroupData {
 }
 
 export const AppBlockButtonGroup = component$<AppBlockButtonGroupProps>((props) => {
-  const { 
-    buttons, 
+  const {
+    buttons,
     outline,
-    class: className, 
-    animation = "fade-up", 
-    animationPlacement = "center-center", 
-    animationEasing = "ease-in-out-quad", 
-    columnNumber, 
-    blockNumber 
+    class: className,
+    animation,
+    animationPlacement,
+    animationEasing,
+    columnNumber,
+    blockNumber
   } = props;
 
   if (!buttons || buttons.length === 0) {
     return null;
   }
 
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
+
   return (
-    <ButtonGroup 
+    <ButtonGroup
       outline={outline}
-      class={`button-group ${className || ""}`.trim()} 
-      data-aos={animation} 
-      data-aos-placement={animationPlacement} 
-      data-aos-easing={animationEasing} 
-      data-aos-delay={(columnNumber * blockNumber) * 50}
+      class={`button-group ${className || ""}`.trim()}
+      {...aosProps}
     >
       {buttons.map((button, index) => {
         const { label, prefix, suffix, ...buttonProps } = button;

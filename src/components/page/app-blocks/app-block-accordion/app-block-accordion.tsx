@@ -2,7 +2,7 @@ import { component$, useStyles$ } from "@builder.io/qwik";
 import { Accordion } from "flowbite-qwik";
 import { AppBlockRichText, type PayloadRichText } from "../app-block-rich-text/app-block-rich-text";
 import type { AccordionProps as FlowbiteAccordionProps } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 
 export interface AppBlockAccordionItem {
   id: string;
@@ -11,16 +11,17 @@ export interface AppBlockAccordionItem {
 }
 
 export interface AppBlockAccordionData extends Omit<FlowbiteAccordionProps, 'children'>, AnimationProps {
+  blockId?: string;
   items?: AppBlockAccordionItem[];
   class?: string;
 }
 
-export interface AppBlockAccordionComponentProps extends AppBlockAccordionData {
+export interface AppBlockAccordionProps extends AppBlockAccordionData {
   columnNumber: number;
   blockNumber: number;
 }
 
-export const AppBlockAccordion = component$<AppBlockAccordionComponentProps>((props) => {
+export const AppBlockAccordion = component$<AppBlockAccordionProps>((props) => {
   // Animate accordion content open/close using CSS Grid technique
   useStyles$(`
     .accordion > div > div:last-child {
@@ -41,17 +42,18 @@ export const AppBlockAccordion = component$<AppBlockAccordionComponentProps>((pr
     }
   `);
 
-  const { items = [], class: className, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber, ...accordionProps } = props;
+  const { items = [], class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...accordionProps } = props;
 
   const defaultClass = "accordion";
   const combinedClasses = `${defaultClass} ${className || ""}`.trim();
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   if (!items || items.length === 0) {
     return null;
   }
 
   return (
-    <Accordion {...accordionProps} class={combinedClasses} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50}>
+    <Accordion {...accordionProps} class={combinedClasses} {...aosProps}>
       {items.map((item) => (
         <Accordion.Panel key={item.id}>
           <Accordion.Header class="[&>button>svg]:transition [&>button>svg]:duration-200 [&>button>svg]:ease-in-out">{item.heading}</Accordion.Header>

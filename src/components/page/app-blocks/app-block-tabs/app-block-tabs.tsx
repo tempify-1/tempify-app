@@ -5,7 +5,7 @@ import {
   type PayloadRichText,
 } from "../app-block-rich-text/app-block-rich-text";
 import type { TabsVariant } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { withViewTransition } from "~/utils/view-transition";
 
 export interface AppBlockTabItem {
@@ -17,26 +17,27 @@ export interface AppBlockTabItem {
 }
 
 export interface AppBlockTabsData extends AnimationProps {
+  blockId?: string;
   items?: AppBlockTabItem[];
   class?: string;
   variant?: TabsVariant;
   directive?: "if" | "show";
 }
 
-export interface AppBlockTabsComponentProps extends AppBlockTabsData {
+export interface AppBlockTabsProps extends AppBlockTabsData {
   columnNumber: number;
   blockNumber: number;
 }
 
-export const AppBlockTabs = component$<AppBlockTabsComponentProps>((props) => {
+export const AppBlockTabs = component$<AppBlockTabsProps>((props) => {
   const {
     items = [],
     class: className,
     variant,
     directive,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
@@ -50,6 +51,8 @@ export const AppBlockTabs = component$<AppBlockTabsComponentProps>((props) => {
   const slideDirection = useSignal<"tabSlideInLeft" | "tabSlideInRight" | "">(
     "",
   );
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
+
   useStyles$(`
 
     .tabs button {
@@ -77,10 +80,7 @@ export const AppBlockTabs = component$<AppBlockTabsComponentProps>((props) => {
   return (
     <div
       class={defaultClass}
-      data-aos={animation}
-      data-aos-placement={animationPlacement}
-      data-aos-easing={animationEasing}
-      data-aos-delay={columnNumber * blockNumber * 50}
+      {...aosProps}
       ref={tabsContainerRef}
     >
       <Tabs

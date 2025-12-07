@@ -16,6 +16,7 @@ export interface TimelineItemData {
 }
 
 export interface AppBlockTimelineData extends AnimationProps {
+  blockId?: string;
   horizontal?: boolean;
   items: TimelineItemData[];
   class?: string;

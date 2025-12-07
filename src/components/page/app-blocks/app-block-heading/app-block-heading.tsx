@@ -1,5 +1,6 @@
 import { component$, type FunctionComponent } from "@builder.io/qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
+import { sanitizeHtml } from "~/utils/sanitize-html";
 
 export type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -20,6 +21,7 @@ export type TextSize =
   | "sm";
 
 export interface AppBlockHeadingData extends AnimationProps {
+  blockId?: string;
   tag?: HeadingTag;
   size?: TextSize;
   content: string;
@@ -47,14 +49,15 @@ const sizeClassMap: Record<TextSize, string> = {
 };
 
 export const AppBlockHeading = component$((props: AppBlockHeadingProps) => {
-  const { tag = "h2", size = "2xl", content, class: className, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber, ...restProps } = props;
+  const { tag = "h2", size = "2xl", content, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...restProps } = props;
 
   const Tag = tag as unknown as DynamicTagComponent;
   const sizeClass = sizeClassMap[size];
   const combinedClasses = `heading ${sizeClass} ${className || ""}`.trim();
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <Tag {...restProps} class={combinedClasses} dangerouslySetInnerHTML={content} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50}>
+    <Tag {...restProps} class={combinedClasses} dangerouslySetInnerHTML={sanitizeHtml(content)} {...aosProps}>
     </Tag>
   );
 });

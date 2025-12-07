@@ -1,7 +1,8 @@
 import { component$ } from "@builder.io/qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 
 export interface AppBlockLinkData extends AnimationProps {
+  blockId?: string;
   href: string;
   text: string;
   newTab?: boolean;
@@ -19,12 +20,14 @@ export const AppBlockLink = component$((props: AppBlockLinkProps) => {
     text,
     newTab = false,
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
+
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
     <a
@@ -32,10 +35,7 @@ export const AppBlockLink = component$((props: AppBlockLinkProps) => {
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : undefined}
       class={`font-bold ${className || ""}`.trim()}
-      data-aos={animation}
-      data-aos-placement={animationPlacement}
-      data-aos-easing={animationEasing}
-      data-aos-delay={(columnNumber * blockNumber) * 50}
+      {...aosProps}
     >
       {text}
     </a>

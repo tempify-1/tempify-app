@@ -5,6 +5,7 @@ import { AppBlockMedia, type AppBlockMediaData } from "../app-block-media/app-bl
 import { AppBlockRichText, type PayloadRichText } from "../app-block-rich-text/app-block-rich-text";
 
 export interface AppBlockCardData extends AnimationProps {
+  blockId?: string;
   horizontal?: boolean;
   href?: string;
   media?: AppBlockMediaData;

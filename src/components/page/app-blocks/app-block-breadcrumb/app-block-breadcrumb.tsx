@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Breadcrumb } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 
 export interface BreadcrumbItemProps {
@@ -12,6 +12,7 @@ export interface BreadcrumbItemProps {
 }
 
 export interface AppBlockBreadcrumbData extends AnimationProps {
+  blockId?: string;
   items: BreadcrumbItemProps[];
   solid?: boolean;
   class?: string;
@@ -27,15 +28,16 @@ export const AppBlockBreadcrumb = component$<AppBlockBreadcrumbProps>((props) =>
     items,
     solid = false,
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
 
   const defaultClass = "breadcrumb";
   const combinedClasses = `${defaultClass} ${className || ""}`.trim();
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   if (!items || items.length === 0) {
     return null;
@@ -44,10 +46,7 @@ export const AppBlockBreadcrumb = component$<AppBlockBreadcrumbProps>((props) =>
   return (
     <div
       class={combinedClasses}
-      data-aos={animation}
-      data-aos-placement={animationPlacement}
-      data-aos-easing={animationEasing}
-      data-aos-delay={columnNumber * blockNumber * 50}
+      {...aosProps}
     >
       <Breadcrumb solid={solid}>
         {items.map((item, index) => {

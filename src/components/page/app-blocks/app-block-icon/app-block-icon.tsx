@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 
 export type IconColor =
@@ -47,6 +47,7 @@ export const sizeClassMap: Record<IconSize, string> = {
 };
 
 export interface AppBlockIconData extends AnimationProps {
+  blockId?: string;
   name: FlowbiteIconName;
   color?: IconColor;
   size?: IconSize;
@@ -62,9 +63,9 @@ export const AppBlockIcon = component$<AppBlockIconProps>((props) => {
     name,
     color,
     size = 6,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
@@ -73,14 +74,10 @@ export const AppBlockIcon = component$<AppBlockIconProps>((props) => {
   const colorClasses = color ? colorClassMap[color] : "";
   const sizeClasses = sizeClassMap[size];
   const combinedClasses = `${sizeClasses} ${colorClasses}`.trim();
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div
-      data-aos={animation}
-      data-aos-placement={animationPlacement}
-      data-aos-easing={animationEasing}
-      data-aos-delay={(columnNumber * blockNumber) * 50}
-    >
+    <div {...aosProps}>
       <Icon class={combinedClasses} />
     </div>
   );
