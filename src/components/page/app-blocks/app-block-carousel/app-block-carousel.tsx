@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import type { AnimationProps } from "../animation-types";
 import { AppBlockCard, type AppBlockCardData } from "../app-block-card/app-block-card";
-import { Carousel, type CarouselProps } from "~/components/carousel/carousel";
+import { Carousel, type CarouselProps } from "~/components/ui/carousel/carousel";
 
 /**
  * Data props for Carousel block (used in content definitions)
