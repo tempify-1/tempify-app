@@ -9,7 +9,8 @@
       "paths": [
         "docs/qwik-best-practices.md",
         "docs/qwik-ui-framework.md",
-        "docs/payload-cms.md"
+        "docs/payload-cms.md",
+        "docs/form.md"
       ]
     }
   ]
