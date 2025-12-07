@@ -9,6 +9,7 @@ import {
   setValues,
 } from "@modular-forms/qwik";
 import { withViewTransition } from "~/utils/view-transition";
+import { DRAG_DEBOUNCE_MS } from "../utils/constants";
 
 export const DROPDOWN_OPENED_TIMEOUT = 400;
 export const COMBOBOX_CLASS =
@@ -152,7 +153,7 @@ export const handleSortableUnchoose = (
   const { sameContainer, oldContainer, newContainer, oldIndex, newIndex } =
     dragState.value;
   if (
-    Date.now() - dragState.value.timestamp > 200 ||
+    Date.now() - dragState.value.timestamp > DRAG_DEBOUNCE_MS ||
     oldIndex === undefined ||
     newIndex === undefined
   )

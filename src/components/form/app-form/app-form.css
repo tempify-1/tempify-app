@@ -25,7 +25,7 @@
     position: relative;
     min-height: 70px;
 
-    &:has([aria-expanded="true"]) {
+    &:has([aria-expanded="true"]), &:has(.chip--drag) {
       z-index: 25;
     }
 

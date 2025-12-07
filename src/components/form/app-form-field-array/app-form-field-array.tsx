@@ -27,6 +27,7 @@ import { withViewTransition } from "~/utils/view-transition";
 import { Alert } from "flowbite-qwik";
 import { setFieldArrayFieldNames } from "../app-form/form-utils";
 import { AppFormFieldRenderer } from "../app-form-field-renderer/app-form-field-renderer";
+import { DRAG_DEBOUNCE_MS, DRAG_TOUCH_DELAY_MS, SORTABLE_ANIMATION_MS } from "../utils/constants";
 
 export interface AppFormFieldArrayProps {
   field: Field;
@@ -57,18 +58,18 @@ export const AppFormFieldArray = component$<AppFormFieldArrayProps>(
     });
 
     // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(() => {
+    useVisibleTask$(({ cleanup }) => {
       if (!fieldArrayListRef.value) return;
 
-      Sortable.create(fieldArrayListRef.value, {
-        animation: 160,
+      const sortable = Sortable.create(fieldArrayListRef.value, {
+        animation: SORTABLE_ANIMATION_MS,
         easing: "cubic-bezier(.2,.0,.2,1)",
         ghostClass: "field-array-item--ghost",
         chosenClass: "field-array-item--chosen",
         dragClass: "field-array-item--drag",
         dataIdAttr: "data-id",
         delayOnTouchOnly: true,
-        delay: 100,
+        delay: DRAG_TOUCH_DELAY_MS,
         forceFallback: true,
         handle: ".handle:not([disabled='true'])",
         onMove: (evt) => {
@@ -82,7 +83,7 @@ export const AppFormFieldArray = component$<AppFormFieldArrayProps>(
         onUnchoose: () => {
           const { timestamp, oldIndex, newIndex } = dragState.value;
           if (
-            Date.now() - timestamp <= 200 &&
+            Date.now() - timestamp <= DRAG_DEBOUNCE_MS &&
             oldIndex !== newIndex &&
             oldIndex !== -1
           ) {
@@ -92,6 +93,8 @@ export const AppFormFieldArray = component$<AppFormFieldArrayProps>(
           }
         },
       });
+
+      cleanup(() => sortable.destroy());
     });
 
     return (

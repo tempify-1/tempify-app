@@ -60,7 +60,8 @@ export const AppFormInput = component$<AppFormFieldProps>((props) => {
           fieldStore: FieldStore<Record<string, string>, any>,
           fieldProps: FieldElementProps<Record<string, string>, any>,
         ) => (
-           fieldStore && fieldProps && (<div class="field-wrapper" style={style}>
+          fieldStore && fieldProps && (
+            <div class="field-wrapper" style={style}>
             <AppFormTooltip tooltip={tooltip}>
               <Input
                 {...fieldProps}
@@ -91,7 +92,8 @@ export const AppFormInput = component$<AppFormFieldProps>((props) => {
             </AppFormTooltip>
 
             <AppFormError message={fieldStore.error} id={`${name}-error`} />
-          </div>)
+            </div>
+          )
         )}
       </Field>
     </>

@@ -3,12 +3,11 @@ import {
   useSignal,
   useTask$,
   $,
-  useVisibleTask$,
 } from "@builder.io/qwik";
 import { AppFormError } from "../app-form-error/app-form-error";
 import type { AppFormFieldProps } from "../app-form/form-types";
 import { AppFormTooltip } from "../app-form-tooltip/app-form-tooltip";
-import { AppFormFormDropdownTrigger } from "../app-form-form-dropdown-trigger/app-form-form-dropdown-trigger";
+import { AppFormDropdownTrigger } from "../app-form-dropdown-trigger/app-form-dropdown-trigger";
 import { Checkbox, Dropdown, Textarea } from "flowbite-qwik";
 import { IconChevronDownOutline } from "flowbite-qwik-icons";
 import {
@@ -80,15 +79,7 @@ export const AppFormMultiSelect = component$<AppFormFieldProps>((props) => {
       "formStore",
     );
   });
-// eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(() => {
-   if(dropdownRef.value) {
-     const button = dropdownRef.value.querySelector('button[aria-haspopup="menu"]');
-     if(button) {
-      button.setAttribute('type','button');
-     }
-   }
-  });
+
 
   return (
     <Field of={formStore} name={name} validate={validate as any}>
@@ -101,7 +92,7 @@ export const AppFormMultiSelect = component$<AppFormFieldProps>((props) => {
           <div id="multi-select" class="field-wrapper">
             {style && <style dangerouslySetInnerHTML={style} />}
             <AppFormTooltip tooltip={tooltip}>
-              <AppFormFormDropdownTrigger dropdownRef={dropdownRef}>
+              <AppFormDropdownTrigger dropdownRef={dropdownRef}>
                 <Dropdown
                   ref={dropdownRef}
                   class="w-full max-w-full [&>button]:w-full"
@@ -163,7 +154,7 @@ export const AppFormMultiSelect = component$<AppFormFieldProps>((props) => {
                     );
                   })}
                 </Dropdown>
-              </AppFormFormDropdownTrigger>
+              </AppFormDropdownTrigger>
             </AppFormTooltip>
             <AppFormError message={fieldStore.error} id={`${name}-error`} />
           </div>

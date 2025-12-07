@@ -60,7 +60,7 @@ export const AppFormFieldRenderer = component$<AppFormFieldRendererProps>((props
             );
 
           case "submit":
-            return <AppFormSubmit key={field.name} field={field} />;
+            return <AppFormSubmit key={field.name} field={field} formStore={formStore} />;
 
           case "checkbox":
             return <AppFormCheckbox key={field.name} field={field} formStore={formStore} />;

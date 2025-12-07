@@ -6,11 +6,12 @@ import { AppFormTooltip } from "../app-form-tooltip/app-form-tooltip";
 import { AppFormLabel } from "../app-form-label/app-form-label";
 import { FieldStore, Field, getValue, FieldElementProps } from "@modular-forms/qwik";
 import { syncFormStoreAndLocal } from "../app-form/form-utils";
+import { formatDate } from "../utils/date-utils";
 
 export const AppFormDate = component$<AppFormFieldProps>(({ field, formStore }) => {
   const { name, required, disabled, ariaLabel, ariaDescribedby, tabIndex, hidden, placeholder, ariaDescription, minDate, maxDate, style, tooltip, value, validate } = field;
   const dateValue = useSignal<string | undefined>(value as string | undefined);
-  const displayValue = useComputed$(() => formatDateToString(dateValue.value as string));
+  const displayValue = useComputed$(() => formatDate(dateValue.value));
 
   // Track form store changes and sync TO local signal
   useTask$(({ track }) => {
@@ -65,18 +66,3 @@ export const AppFormDate = component$<AppFormFieldProps>(({ field, formStore }) 
     </Field>
   );
 });
-
-
-const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-const getOrdinalSuffix = (num: number): string => {
-  if (num > 3 && num < 21) return "th";
-  return ["th", "st", "nd", "rd"][num % 10] || "th";
-};
-
-const formatDateToString = (dateString: string): string | undefined => {
-  const date = new Date(dateString);
-  if (!date || isNaN(date.getTime())) return undefined;
-  const day = date.getDate();
-  return `${day}${getOrdinalSuffix(day)} ${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`;
-};

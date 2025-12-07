@@ -1,4 +1,5 @@
-import type { FormStore } from "@modular-forms/qwik";
+import type { QRL } from "@builder.io/qwik";
+import type { FormStore, ValidateField } from "@modular-forms/qwik";
 
 export type FieldType =
   | "text"
@@ -20,8 +21,32 @@ export type FieldType =
   | "combobox"
   | "submit"
   | "fieldset"
-  | "hidden"
-  | string;
+  | "hidden";
+
+export type FieldValueObject<T extends object = Record<string, unknown>> = {
+  readonly id?: string;
+  readonly key: string;
+} & Omit<T, "id" | "key">;
+
+export type FieldValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | FieldValueObject
+  | FieldValue[]
+  | { [key: string]: FieldValue };
+
+export interface Option {
+  label: string;
+  value: string | number | boolean | FieldValueObject;
+  disabled?: boolean;
+  selected?: boolean;
+  draggable?: boolean;
+}
+
+type FieldValidation = QRL<ValidateField<any>> | QRL<ValidateField<any>>[];
 
 export interface Field {
   name: string;
@@ -49,29 +74,10 @@ export interface Field {
   fieldTag?: string | number;
   fields?: Field[];
   arrayDepth?: number[];
-  value?:
-    | string
-    | number
-    | boolean
-    | Array<string | number | boolean | Record<string, any>>
-    | Record<string, any>
-    | FieldValueObject[];
-  validate?: ((value: unknown) => string | undefined) | Array<any>;
+  value?: FieldValue;
+  validate?: FieldValidation;
   style?: string;
   group?: string;
-}
-
-export type FieldValueObject<T extends object = Record<string, unknown>> = {
-  readonly id?: string;
-  readonly key: string;
-} & Omit<T, "id" | "key">;
-
-export interface Option {
-  label: string;
-  value: string | number | boolean | FieldValueObject;
-  disabled?: boolean;
-  selected?: boolean;
-  draggable?: boolean;
 }
 
 // Base interface for form field components with common properties

@@ -22,7 +22,8 @@ import {
   handleSearchKeyDown,
   handleSortableUnchoose,
 } from "./app-form-array-combobox-utils";
-import { AppFormFormDropdownTrigger } from "../app-form-form-dropdown-trigger/app-form-form-dropdown-trigger";
+import { AppFormDropdownTrigger } from "../app-form-dropdown-trigger/app-form-dropdown-trigger";
+import { SORTABLE_CHIP_ANIMATION_MS } from "../utils/constants";
 
 export const AppFormArrayCombobox = component$<AppFormFieldArrayProps>(
   ({ formStore, field }) => {
@@ -70,10 +71,10 @@ export const AppFormArrayCombobox = component$<AppFormFieldArrayProps>(
     });
 
     // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(() => {
+    useVisibleTask$(({ cleanup }) => {
       if (!chipListRef.value) return;
-      Sortable.create(chipListRef.value, {
-        animation: 150,
+      const sortable = Sortable.create(chipListRef.value, {
+        animation: SORTABLE_CHIP_ANIMATION_MS,
         easing: "cubic-bezier(.2,.0,.2,1)",
         ghostClass: "chip--ghost",
         chosenClass: "chip--chosen",
@@ -101,6 +102,8 @@ export const AppFormArrayCombobox = component$<AppFormFieldArrayProps>(
         onUnchoose: () =>
           handleSortableUnchoose(dragState, formStore, group, name),
       });
+
+      cleanup(() => sortable.destroy());
     });
 
     return (
@@ -173,7 +176,7 @@ export const AppFormArrayCombobox = component$<AppFormFieldArrayProps>(
                         <IconChevronDownOutline class="pointer-events-none absolute top-0 right-4 flex min-h-4 w-2.5 grow-0 h-full items-center justify-center opacity-60 " />
                       </div>
                     </div>
-                    <AppFormFormDropdownTrigger dropdownRef={dropdownRef}>
+                    <AppFormDropdownTrigger dropdownRef={dropdownRef}>
                       <Dropdown
                         ref={dropdownRef}
                         onKeyDown$={$(handlePreventDefault)}
@@ -226,7 +229,7 @@ export const AppFormArrayCombobox = component$<AppFormFieldArrayProps>(
                           );
                         })}
                       </Dropdown>
-                    </AppFormFormDropdownTrigger>
+                    </AppFormDropdownTrigger>
                   </div>
                 </AppFormTooltip>
               </div>

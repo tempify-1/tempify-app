@@ -32,16 +32,6 @@ export const fields: Field[] = [
     ],
   },
   {
-    name: "password",
-    type: "password",
-    label: "Password",
-    value: "KFDSHDSFH",
-    required: true,
-    placeholder: "Enter your password",
-    hidden: false,
-    validate: [required<string>("Please enter your password.")],
-  },
-  {
     name: "phone",
     type: "tel",
     label: "Phone",
@@ -69,7 +59,7 @@ export const fields: Field[] = [
     name: "dateRange",
     type: "dateRange",
     label: "Date Range",
-    placeholder: "Select a date",
+    placeholder: "Select a date range",
     required: true,
     value: undefined,
     validate: [required<Array<any>>("Please select a date range.")],
@@ -408,135 +398,3 @@ export const fields: Field[] = [
 ];
 
 export type { FormData } from "./form-test";
-
-/* google address autocomplete */
-/*
---/fix field array move button 
--- clean up styles 
---Default dates 
---change ID
---submit 
--- switch over ID. 
--- do init id then multislect 
--- Move and unselect ot utility move to utility 
--- ghost
--- handle for both 
--- handle not dissabled 
--- draggable 
--- add styles to components
--- remove factories 
--- config helper
--- mf currentFormState
--- types 
---variables 
-
--- pop method inside component 
---validate check 
--- count check 
--- renderfield componet 
---- finalise config
-
--- Min and max for conbobox 
-
---editible popup value 
---dragg between arrays nested 
--- fix up get arrays 
--- z-ined issues
-
---form-grid
--- dropdown Width Height
---form config naming 
---two component files 
---utilities file
---Delete old comboboxes 
---selectable dropdown area (move the div into the field then adjust classes for dates and combos and muliselect Plus remove width adjustment )
--- prevent default triggering issue 
-
--- delete trigger :before fixes 
--- add button inner icon 
--- fix focus on combo 
-== fix trigger on multiselect 
---dropdown width and height for combo and select 
-fix up classes like field-wrapper
-id for field on all fields 
-
-Location 
-
-write a md no barrel 
-
-
-
-
-  
-  createDateField('date', 'Date', {
-    required: true,
-  }),
-
-
-  {
-    name: 'todos',
-    type: 'fieldArray',
-    label: 'Todos',
-    singularLabel: 'Todo',
-    min: 1,
-    max: 3,
-    value: [
-      {
-        label: '3 cucumbers',
-        deadline: new Date(Date.now() + 864e5).toISOString().split('T')[0],
-      },
-      {
-        label: '5 Tomatoes',
-        deadline: new Date(Date.now() + 1728e5).toISOString().split('T')[0],
-      },
-    ],
-    fields: [
-      {
-        name: 'todos.#.label',
-        type: 'text',
-        placeholder: 'Label',
-        value: 'DSFKDFSKJ',
-      },
-      {
-        name: 'todos.#.deadline',
-        type: 'date',
-        placeholder: 'Deadline',
-        value: '2024-01-01',
-      },
-    ],
-  }, */
-
-/*   {
-    name: "multiCombobox",
-    type: "multiCombobox",
-    label: "Multi Combobox",
-    options: [
-      { label: "Option 1", value: { key: "option1" } },
-      { label: "Option 2", value: { key: "option2" } },
-      { label: "Option 3", value: { key: "option3" } },
-      { label: "Option 4", value: { key: "option4" } },
-      { label: "Option 5", value: { key: "option5" } },
-    ],
-    value: [{ key: "option1" }, { key: "option2" }],
-    min: 1,
-    max: 3,
-    validate: [required<Array<string>>("Please enter your multiSelect.")],
-  },
-
-  {
-    name: "multiComboboxReselect",
-    type: "multiCombobox",
-    label: "Multi Combobox Reselect",
-    options: [
-      { label: "Option 1", value: { key: "xza" } },
-      { label: "Option 2", value: { key: "xzb" } },
-      { label: "Option 3", value: { key: "xzc" } },
-      { label: "Option 4", value: { key: "xzd" } },
-      { label: "Option 5", value: { key: "xze" } },
-    ],
-    value: [{ key: "xza" }, { key: "xza" }],
-    min: 1,
-    max: 3,
-    reselectOptions: true,
-    validate: [required<Array<string>>("Please enter your multiSelect.")],
-  }, */

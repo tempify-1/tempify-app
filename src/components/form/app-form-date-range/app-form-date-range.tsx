@@ -16,8 +16,10 @@ import {
   FieldElementProps,
 } from "@modular-forms/qwik";
 import { syncDateRangeFormStoreAndLocal } from "../app-form/form-utils";
-import { AppFormFormDropdownTrigger } from "../app-form-form-dropdown-trigger/app-form-form-dropdown-trigger";
+import { AppFormDropdownTrigger } from "../app-form-dropdown-trigger/app-form-dropdown-trigger";
 import { IconCalendarMonthOutline } from "flowbite-qwik-icons";
+import { formatDate } from "../utils/date-utils";
+import { CALENDAR_SWITCH_DELAY_MS } from "../utils/constants";
 
 
 export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStore }) => {
@@ -91,7 +93,7 @@ export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStor
           <div id="date-range" class="field-wrapper">
             <style dangerouslySetInnerHTML={style} />
             <AppFormTooltip tooltip={tooltip}>
-              <AppFormFormDropdownTrigger dropdownRef={dropdownRef}>
+              <AppFormDropdownTrigger dropdownRef={dropdownRef}>
                 <Dropdown
                   ref={dropdownRef}
                   class="w-full max-w-full [&>button]:w-full"
@@ -122,7 +124,7 @@ export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStor
                           <IconCalendarMonthOutline class="w-4 h-4" />
                         </div>
                           {startDateDisplayValue.value &&
-                            endDateDisplayValue.value && (
+                            endDateDisplayValue.value ?  (
                               <>
                                 <Badge
                                   pills
@@ -133,7 +135,7 @@ export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStor
                                   content={endDateDisplayValue.value}
                                 />
                               </>
-                            )}
+                            ) : (<span class="flex items-center text-md">{placeholder}</span>)}
                         </div>
                       </div>
                     </div>
@@ -195,7 +197,7 @@ export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStor
                             startDateValue.value = new Date(date).toISOString();
                             setTimeout(
                               () => (currentCalendar.value = "end"),
-                              200,
+                              CALENDAR_SWITCH_DELAY_MS,
                             );
                           }}
                           showClearButton={false}
@@ -222,7 +224,7 @@ export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStor
                             endDateValue.value = new Date(date).toISOString();
                             setTimeout(
                               () => (currentCalendar.value = "start"),
-                              200,
+                              CALENDAR_SWITCH_DELAY_MS,
                             );
                           }}
                           showClearButton={false}
@@ -232,7 +234,7 @@ export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStor
                     </div>
                   </Dropdown.Item>
                 </Dropdown>
-              </AppFormFormDropdownTrigger>
+              </AppFormDropdownTrigger>
             </AppFormTooltip>
 
             <AppFormError message={fieldStore.error} id={`${name}-error`} />
@@ -243,55 +245,5 @@ export const AppFormDateRange = component$<AppFormFieldProps>(({ field, formStor
   );
 });
 
-
 const DATERANGE_CLASS =
   "relative min-h-[42px] p-1 pl-[42px] dark:border-gray-600 flex gap-1 flex-wrap w-full rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-700 text-sm";
-
-const MONTH_NAMES_LONG = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const MONTH_NAMES_SHORT = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-const getOrdinalSuffix = (num: number): string => {
-  if (num > 3 && num < 21) return "th";
-  return ["th", "st", "nd", "rd"][num % 10] || "th";
-};
-
-const formatDate = (
-  dateString: string | undefined,
-  shortMonth = false,
-  shortYear = false,
-): string | undefined => {
-  if (!dateString) return '';
-  const date = new Date(dateString);
-  const day = date.getDate();
-  const month = (shortMonth ? MONTH_NAMES_SHORT : MONTH_NAMES_LONG)[
-    date.getMonth()
-  ];
-  const year = shortYear ? date.getFullYear() % 100 : date.getFullYear();
-  return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
-};
