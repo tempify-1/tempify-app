@@ -22,7 +22,51 @@ export const UserCard = component$((props: { name: string }) => {
 });
 ```
 
-### 1.2. Named Exports Only
+### 1.2. No JSDoc Comments
+Do not use JSDoc comments in code files. Code should be self-documenting through clear naming.
+
+```tsx
+// ❌ Bad
+/**
+ * Renders a user card with the user's name and email
+ * @param props - The component props
+ * @param props.name - The user's display name
+ * @param props.email - The user's email address
+ * @returns A card component displaying user info
+ */
+export const UserCard = component$<UserCardProps>((props) => {
+  return <div>{props.name}</div>;
+});
+
+// ✅ Good
+export const UserCard = component$<UserCardProps>((props) => {
+  return <div>{props.name}</div>;
+});
+```
+
+### 1.3. No Superfluous Comments
+If context or documentation is needed, add it to a markdown file in `docs/` instead.
+
+```tsx
+// ❌ Bad - superfluous comments
+const handleSubmit = $(() => {
+  // Validate the form first
+  validateForm();
+  // Then submit the data to the server
+  submitData();
+  // Finally show success message
+  showSuccess();
+});
+
+// ✅ Good - code is self-explanatory
+const handleSubmit = $(() => {
+  validateForm();
+  submitData();
+  showSuccess();
+});
+```
+
+### 1.4. Named Exports Only
 Always use named exports for components. No default exports.
 
 ```tsx
