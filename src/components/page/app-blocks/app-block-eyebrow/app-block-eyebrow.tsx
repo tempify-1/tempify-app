@@ -1,5 +1,7 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, type FunctionComponent } from "@builder.io/qwik";
 import type { AnimationProps } from "../animation-types";
+
+type DynamicTagComponent = FunctionComponent<Record<string, unknown>>;
 
 export type EyebrowTag =
   | "p"
@@ -14,16 +16,13 @@ export type EyebrowTag =
 
 export type TextSize = "base" | "sm" | "xs";
 
-/** Data props for Eyebrow block (used in content definitions) */
 export interface AppBlockEyebrowData extends AnimationProps {
   tag?: EyebrowTag;
   size?: TextSize;
   content: string;
   class?: string;
-  [key: string]: any;
 }
 
-/** Full props for Eyebrow component (includes runtime-injected props) */
 export interface AppBlockEyebrowProps extends AppBlockEyebrowData {
   columnNumber: number;
   blockNumber: number;
@@ -38,7 +37,7 @@ const sizeClassMap: Record<TextSize, string> = {
 export const AppBlockEyebrow = component$((props: AppBlockEyebrowProps) => {
   const { tag = "p", size = "xs", content, class: className, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber, ...restProps } = props;
 
-  const Tag = tag as any;
+  const Tag = tag as unknown as DynamicTagComponent;
   const sizeClass = sizeClassMap[size];
   const combinedClasses = `eye-brow uppercase ${sizeClass} ${className || ""}`.trim();
 

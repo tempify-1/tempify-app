@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, type Component } from "@builder.io/qwik";
 import { AppBlockHeading } from "../app-blocks/app-block-heading/app-block-heading";
 import { AppBlockEyebrow } from "../app-blocks/app-block-eyebrow/app-block-eyebrow";
 import { AppBlockBadge } from "../app-blocks/app-block-badge/app-block-badge";
@@ -19,7 +19,32 @@ import { AppBlockCard } from "../app-blocks/app-block-card/app-block-card";
 import { AppBlockCarousel } from "../app-blocks/app-block-carousel/app-block-carousel";
 import { AppBlockAvatar } from "../app-blocks/app-block-avatar/app-block-avatar";
 import { AppBlockTimeline } from "../app-blocks/app-block-timeline/app-block-timeline";
-import type { ContentBlock } from "../app-section/app-section";
+import type { ContentBlock } from "../types/block-types";
+
+type BlockType = ContentBlock["blockType"];
+
+const blockRegistry: Record<BlockType, Component<any>> = {
+  accordion: AppBlockAccordion,
+  avatar: AppBlockAvatar,
+  badge: AppBlockBadge,
+  breadcrumb: AppBlockBreadcrumb,
+  buttonRow: AppBlockButtonRow,
+  buttonGroup: AppBlockButtonGroup,
+  buttonGrid: AppBlockButtonGrid,
+  card: AppBlockCard,
+  carousel: AppBlockCarousel,
+  eyebrow: AppBlockEyebrow,
+  heading: AppBlockHeading,
+  icon: AppBlockIcon,
+  link: AppBlockLink,
+  logoTicker: AppBlockLogoTicker,
+  media: AppBlockMedia,
+  review: AppBlockReview,
+  richText: AppBlockRichText,
+  tabs: AppBlockTabs,
+  tile: AppBlockTile,
+  timeline: AppBlockTimeline,
+};
 
 export interface AppColumnProps {
   contentBlocks?: ContentBlock[];
@@ -146,51 +171,16 @@ export const AppColumn = component$((props: AppColumnProps) => {
   const colSpanClasses = buildColSpanClasses();
 
   const renderContentBlock = (block: ContentBlock, index: number) => {
-    const blockNumber = index + 1;
-    switch (block.blockType) {
-      case "accordion":
-        return <AppBlockAccordion key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "avatar":
-        return <AppBlockAvatar key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "badge":
-        return <AppBlockBadge key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "breadcrumb":
-        return <AppBlockBreadcrumb key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "buttonRow":
-        return <AppBlockButtonRow key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "buttonGroup":
-        return <AppBlockButtonGroup key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "buttonGrid":
-        return <AppBlockButtonGrid key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "card":
-        return <AppBlockCard key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "carousel":
-        return <AppBlockCarousel key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "tile":
-        return <AppBlockTile key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "eyebrow":
-        return <AppBlockEyebrow key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "heading":
-        return <AppBlockHeading key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "icon":
-        return <AppBlockIcon key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "link":
-        return <AppBlockLink key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "logoTicker":
-        return <AppBlockLogoTicker key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "media":
-        return <AppBlockMedia key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "review":
-        return <AppBlockReview key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "richText":
-        return <AppBlockRichText key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "tabs":
-        return <AppBlockTabs key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      case "timeline":
-        return <AppBlockTimeline key={`block-${index}`} {...block} columnNumber={columnNumber} blockNumber={blockNumber} />;
-      default:
-        return null;
-    }
+    const BlockComponent = blockRegistry[block.blockType];
+    if (!BlockComponent) return null;
+    return (
+      <BlockComponent
+        key={`block-${index}`}
+        {...block}
+        columnNumber={columnNumber}
+        blockNumber={index + 1}
+      />
+    );
   };
 
   const combinedClasses = `flex flex-col gap-2 ${colSpanClasses} ${className || ""}`.trim();

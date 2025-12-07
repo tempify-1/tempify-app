@@ -3,29 +3,16 @@ import type { AnimationProps } from "../animation-types";
 import { AppBlockCard, type AppBlockCardData } from "../app-block-card/app-block-card";
 import { Carousel, type CarouselProps } from "~/components/ui/carousel/carousel";
 
-/**
- * Data props for Carousel block (used in content definitions)
- * Extends CarouselProps (excluding class which we handle separately) and AnimationProps
- */
 export interface AppBlockCarouselData extends AnimationProps, Omit<CarouselProps, "class"> {
-  /** Array of card data to display in the carousel */
   cards: AppBlockCardData[];
-  /** Custom class for the carousel container */
   class?: string;
 }
 
-/**
- * Full props for Carousel component (includes runtime-injected props)
- */
 export interface AppBlockCarouselProps extends AppBlockCarouselData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * AppBlockCarousel component that renders cards in a horizontal scrolling carousel
- * Uses the Carousel component with scroll-snap and Intersection Observer
- */
 export const AppBlockCarousel = component$<AppBlockCarouselProps>((props) => {
   const {
     cards,

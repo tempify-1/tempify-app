@@ -1,20 +1,16 @@
 import { component$ } from "@builder.io/qwik";
 import { AppSection, type SectionProps } from "../app-section/app-section";
 
-/**
- * Props for the AppPage component
- */
 export interface AppPageProps {
   sections: SectionProps[];
 }
 
-/**
- * AppPage component that renders a complete page structure
- * Uses the tag prop in SectionProps to differentiate between header, section, and footer
- * Typically: first section has tag="header", middle sections have tag="section", last section has tag="footer"
- */
 export const AppPage = component$((props: AppPageProps) => {
   const { sections } = props;
+
+  if (!sections || sections.length === 0) {
+    return null;
+  }
 
   const firstSection = sections[0];
   const lastSection = sections[sections.length - 1];

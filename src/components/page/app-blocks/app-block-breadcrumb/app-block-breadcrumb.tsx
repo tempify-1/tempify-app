@@ -3,7 +3,6 @@ import { Breadcrumb } from "flowbite-qwik";
 import type { AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 
-/** Individual breadcrumb item props */
 export interface BreadcrumbItemProps {
   label: string;
   href?: string;
@@ -12,14 +11,12 @@ export interface BreadcrumbItemProps {
   arrowIcon?: FlowbiteIconName;
 }
 
-/** Data props for Breadcrumb block (used in content definitions) */
 export interface AppBlockBreadcrumbData extends AnimationProps {
   items: BreadcrumbItemProps[];
   solid?: boolean;
   class?: string;
 }
 
-/** Full props for Breadcrumb component (includes runtime-injected props) */
 export interface AppBlockBreadcrumbProps extends AppBlockBreadcrumbData {
   columnNumber: number;
   blockNumber: number;

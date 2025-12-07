@@ -12,13 +12,11 @@ export interface AppBlockButtonGridButtonProps extends ButtonProps {
   suffix?: FlowbiteIconName;
 }
 
-/** Data props for ButtonGrid block (used in content definitions) */
 export interface AppBlockButtonGridData extends AnimationProps {
   buttons?: AppBlockButtonGridButtonProps[];
   class?: string;
 }
 
-/** Full props for ButtonGrid component (includes runtime-injected props) */
 export interface AppBlockButtonGridProps extends AppBlockButtonGridData {
   columnNumber: number;
   blockNumber: number;

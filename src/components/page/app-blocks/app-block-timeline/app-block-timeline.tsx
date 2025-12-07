@@ -6,47 +6,26 @@ import { AppBlockRichText, type PayloadRichText } from "../app-block-rich-text/a
 
 type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
-/**
- * Data for a single timeline item
- */
 export interface TimelineItemData {
-  /** Title of the timeline item */
   title: string;
-  /** Heading tag for the title */
   titleTag?: HeadingTag;
-  /** Time/date string displayed */
   time?: string;
-  /** ISO datetime for semantic markup */
   dateTime?: string;
-  /** Body rich text content */
   body?: PayloadRichText;
-  /** Icon name for the timeline point */
   icon?: FlowbiteIconName;
 }
 
-/**
- * Data props for Timeline block (used in content definitions)
- */
 export interface AppBlockTimelineData extends AnimationProps {
-  /** Whether to display the timeline horizontally */
   horizontal?: boolean;
-  /** Array of timeline items */
   items: TimelineItemData[];
-  /** Custom class for the timeline */
   class?: string;
 }
 
-/**
- * Full props for Timeline component (includes runtime-injected props)
- */
 export interface AppBlockTimelineProps extends AppBlockTimelineData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * AppBlockTimeline component that renders a flowbite-qwik Timeline
- */
 export const AppBlockTimeline = component$<AppBlockTimelineProps>((props) => {
   const {
     horizontal = false,

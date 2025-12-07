@@ -3,40 +3,22 @@ import type { AnimationProps } from "../animation-types";
 import { AppBlockMedia, type AppBlockMediaData } from "../app-block-media/app-block-media";
 import styles from "./app-block-logo-ticker.css?inline";
 
-/**
- * Data props for LogoTicker block (used in content definitions)
- */
 export interface AppBlockLogoTickerData extends AnimationProps {
-  /** Array of media items to display as logos */
   logos: AppBlockMediaData[];
-  /** Duration of one complete scroll cycle in seconds (default: 30) */
   duration?: number;
-  /** Whether to reverse the scroll direction */
   reverse?: boolean;
-  /** Whether to show fade edges for seamless look */
   fadeEdges?: boolean;
-  /** Whether to pause animation on hover (default: true) */
   pauseOnHover?: boolean;
-  /** Fixed width for each logo item in pixels (default: 150) */
   itemWidth?: number;
-  /** Number of times to repeat the logo set for seamless scrolling (default: 4) */
   repeatCount?: number;
-  /** Custom class for the container */
   class?: string;
 }
 
-/**
- * Full props for LogoTicker component (includes runtime-injected props)
- */
 export interface AppBlockLogoTickerProps extends AppBlockLogoTickerData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * AppBlockLogoTicker component that displays logos in an infinite horizontal scroll
- * Uses CSS grid for equal-width logos and duplicates them enough to fill the viewport
- */
 export const AppBlockLogoTicker = component$<AppBlockLogoTickerProps>((props) => {
   useStyles$(styles);
 

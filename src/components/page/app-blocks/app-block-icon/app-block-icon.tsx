@@ -2,9 +2,6 @@ import { component$ } from "@builder.io/qwik";
 import type { AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 
-/**
- * Theme colors for icons
- */
 export type IconColor =
   | "blue"
   | "red"
@@ -15,14 +12,8 @@ export type IconColor =
   | "indigo"
   | "gray";
 
-/**
- * Size values from 1 to 32 (maps to w-{size} h-{size})
- */
 export type IconSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32;
 
-/**
- * Color class map for JIT-compatible Tailwind classes
- */
 export const colorClassMap: Record<IconColor, string> = {
   blue: "text-blue-600 dark:text-blue-400",
   red: "text-red-600 dark:text-red-400",
@@ -34,9 +25,6 @@ export const colorClassMap: Record<IconColor, string> = {
   gray: "text-gray-600 dark:text-gray-400",
 };
 
-/**
- * Size class map for JIT-compatible Tailwind classes
- */
 export const sizeClassMap: Record<IconSize, string> = {
   1: "w-1 h-1",
   2: "w-2 h-2",
@@ -58,17 +46,12 @@ export const sizeClassMap: Record<IconSize, string> = {
   32: "w-32 h-32",
 };
 
-/** Data props for Icon block (used in content definitions) */
 export interface AppBlockIconData extends AnimationProps {
-  /** The name of the Flowbite icon to render */
   name: FlowbiteIconName;
-  /** Theme color for the icon */
   color?: IconColor;
-  /** Size of the icon (1-32, maps to w-{size} h-{size}) */
   size?: IconSize;
 }
 
-/** Full props for Icon component (includes runtime-injected props) */
 export interface AppBlockIconProps extends AppBlockIconData {
   columnNumber: number;
   blockNumber: number;

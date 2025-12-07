@@ -4,37 +4,20 @@ import type { AnimationProps } from "../animation-types";
 import { AppBlockMedia, type AppBlockMediaData } from "../app-block-media/app-block-media";
 import { AppBlockRichText, type PayloadRichText } from "../app-block-rich-text/app-block-rich-text";
 
-/**
- * Data props for Card block (used in content definitions)
- * Based on flowbite-qwik Card component
- */
 export interface AppBlockCardData extends AnimationProps {
-  /** Whether the card should be displayed horizontally */
   horizontal?: boolean;
-  /** Optional link URL - makes the card clickable */
   href?: string;
-  /** Media data for the card image - uses AppBlockMediaData for consistency with Payload CMS */
   media?: AppBlockMediaData;
-  /** Rich text content for the card body */
   richText?: PayloadRichText;
-  /** Whether the card should be sticky (enables card stacking effect) */
   sticky?: boolean;
-  /** Custom class for the card */
   class?: string;
 }
 
-/**
- * Full props for Card component (includes runtime-injected props)
- */
 export interface AppBlockCardProps extends AppBlockCardData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * AppBlockCard component that renders a flowbite-qwik Card
- * with optional media (using AppBlockMedia) and rich text content
- */
 export const AppBlockCard = component$<AppBlockCardProps>((props) => {
   const {
     horizontal = false,

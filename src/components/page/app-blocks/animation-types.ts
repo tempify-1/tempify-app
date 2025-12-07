@@ -1,10 +1,5 @@
-/**
- * Animation type options for AOS-style animations
- */
 export type AnimationType =
-  // No animation
   | 'none'
-  // Fade animations
   | 'fade'
   | 'fade-up'
   | 'fade-down'
@@ -14,17 +9,14 @@ export type AnimationType =
   | 'fade-up-left'
   | 'fade-down-right'
   | 'fade-down-left'
-  // Flip animations
   | 'flip-up'
   | 'flip-down'
   | 'flip-left'
   | 'flip-right'
-  // Slide animations
   | 'slide-up'
   | 'slide-down'
   | 'slide-left'
   | 'slide-right'
-  // Zoom animations
   | 'zoom-in'
   | 'zoom-in-up'
   | 'zoom-in-down'
@@ -36,9 +28,6 @@ export type AnimationType =
   | 'zoom-out-left'
   | 'zoom-out-right';
 
-/**
- * Animation anchor placement options
- */
 export type AnimationPlacement =
   | 'top-bottom'
   | 'top-center'
@@ -50,9 +39,6 @@ export type AnimationPlacement =
   | 'bottom-center'
   | 'bottom-top';
 
-/**
- * Animation easing function options
- */
 export type AnimationEasing =
   | 'linear'
   | 'ease'
@@ -75,12 +61,45 @@ export type AnimationEasing =
   | 'ease-out-quart'
   | 'ease-in-out-quart';
 
-/**
- * Animation props interface to be extended by block components
- */
 export interface AnimationProps {
   animation?: AnimationType;
   animationPlacement?: AnimationPlacement;
   animationEasing?: AnimationEasing;
 }
 
+export const ANIMATION_DELAY_MULTIPLIER = 50;
+
+export interface AosDataAttributes {
+  "data-aos"?: AnimationType;
+  "data-aos-placement"?: AnimationPlacement;
+  "data-aos-easing"?: AnimationEasing;
+  "data-aos-delay"?: number;
+}
+
+export interface GetAosPropsParams extends AnimationProps {
+  columnNumber: number;
+  blockNumber: number;
+  disabled?: boolean;
+}
+
+export const getAosProps = (params: GetAosPropsParams): AosDataAttributes => {
+  const {
+    animation = "fade-up",
+    animationPlacement = "center-center",
+    animationEasing = "ease-in-out-quad",
+    columnNumber,
+    blockNumber,
+    disabled = false,
+  } = params;
+
+  if (disabled || animation === "none") {
+    return {};
+  }
+
+  return {
+    "data-aos": animation,
+    "data-aos-placement": animationPlacement,
+    "data-aos-easing": animationEasing,
+    "data-aos-delay": columnNumber * blockNumber * ANIMATION_DELAY_MULTIPLIER,
+  };
+};

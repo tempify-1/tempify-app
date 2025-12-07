@@ -4,9 +4,6 @@ import type { AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 import { type IconColor, type IconSize, colorClassMap, sizeClassMap } from "../app-block-icon/app-block-icon";
 
-/**
- * Theme colors matching the section component
- */
 export type ThemeColor =
   | "blue"
   | "red"
@@ -20,39 +17,26 @@ export type ThemeColor =
 
 export type ForegroundThemeColor = ThemeColor | "white";
 
-/**
- * Icon configuration for tiles
- */
 export interface TileIconConfig {
   name: FlowbiteIconName;
   color?: IconColor;
   size?: IconSize;
 }
 
-/**
- * Data props for Tile block (used in content definitions)
- */
 export interface AppBlockTileData extends AnimationProps {
   richText?: PayloadRichText;
   backgroundTheme?: ThemeColor;
   foregroundTheme?: ForegroundThemeColor;
   icon?: TileIconConfig;
-  /** Whether the tile should be sticky (enables card stacking effect) */
   sticky?: boolean;
   class?: string;
 }
 
-/**
- * Full props for Tile component (includes runtime-injected props)
- */
 export interface AppBlockTileComponentProps extends AppBlockTileData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * Class maps for JIT-compatible Tailwind classes
- */
 const backgroundThemeClassMap: Record<ThemeColor, { light: string; dark: string }> = {
   blue: { light: "bg-blue-100", dark: "dark:bg-blue-950" },
   red: { light: "bg-red-100", dark: "dark:bg-red-950" },

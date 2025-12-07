@@ -7,47 +7,25 @@ type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type AvatarStatus = 'away' | 'busy' | 'offline' | 'online';
 type AvatarStatusPosition = 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center' | 'center-right';
 
-/**
- * Data props for Avatar block (used in content definitions)
- * Based on flowbite-qwik Avatar component
- */
 export interface AppBlockAvatarData extends AnimationProps {
-  /** Alt text for the avatar image */
   alt?: string;
-  /** Whether the avatar should have a border */
   bordered?: boolean;
-  /** Image URL for the avatar */
   img?: string;
-  /** Border/ring color for the avatar */
   color?: AvatarColor;
-  /** Whether the avatar should be rounded (circular) */
   rounded?: boolean;
-  /** Size of the avatar */
   size?: AvatarSize;
-  /** Whether the avatar is part of a stacked group */
   stacked?: boolean;
-  /** Status indicator (online, offline, busy, away) */
   status?: AvatarStatus;
-  /** Position of the status indicator */
   statusPosition?: AvatarStatusPosition;
-  /** Initials to display as placeholder when no image is provided */
   placeholderInitials?: string;
-  /** Custom class for the avatar */
   class?: string;
 }
 
-/**
- * Full props for Avatar component (includes runtime-injected props)
- */
 export interface AppBlockAvatarProps extends AppBlockAvatarData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * AppBlockAvatar component that renders a flowbite-qwik Avatar
- * with support for images, initials placeholders, status indicators, and various sizes
- */
 export const AppBlockAvatar = component$<AppBlockAvatarProps>((props) => {
   const {
     alt,

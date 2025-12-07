@@ -1,7 +1,9 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, type FunctionComponent } from "@builder.io/qwik";
 import type { AnimationProps } from "../animation-types";
 
 export type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
+type DynamicTagComponent = FunctionComponent<Record<string, unknown>>;
 
 export type TextSize =
   | "9xl"
@@ -17,16 +19,13 @@ export type TextSize =
   | "base"
   | "sm";
 
-/** Data props for Heading block (used in content definitions) */
 export interface AppBlockHeadingData extends AnimationProps {
   tag?: HeadingTag;
   size?: TextSize;
   content: string;
   class?: string;
-  [key: string]: any;
 }
 
-/** Full props for Heading component (includes runtime-injected props) */
 export interface AppBlockHeadingProps extends AppBlockHeadingData {
   columnNumber: number;
   blockNumber: number;
@@ -50,7 +49,7 @@ const sizeClassMap: Record<TextSize, string> = {
 export const AppBlockHeading = component$((props: AppBlockHeadingProps) => {
   const { tag = "h2", size = "2xl", content, class: className, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber, ...restProps } = props;
 
-  const Tag = tag as any;
+  const Tag = tag as unknown as DynamicTagComponent;
   const sizeClass = sizeClassMap[size];
   const combinedClasses = `heading ${sizeClass} ${className || ""}`.trim();
 

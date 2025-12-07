@@ -2,9 +2,6 @@ import { component$ } from "@builder.io/qwik";
 import { Image } from "@unpic/qwik";
 import type { AnimationProps } from "../animation-types";
 
-/**
- * Data props for Media block (used in content definitions) - matches Payload CMS media structure
- */
 export interface AppBlockMediaData extends AnimationProps {
   id: number;
   alt: string;
@@ -22,18 +19,11 @@ export interface AppBlockMediaData extends AnimationProps {
   focalY: number;
 }
 
-/**
- * Full props for Media component (includes runtime-injected props)
- */
 export interface AppBlockMediaProps extends AppBlockMediaData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * AppBlockMedia component that renders images or videos based on mimeType
- * Supports: image/*, video/*, application/pdf
- */
 export const AppBlockMedia = component$((props: AppBlockMediaProps) => {
   const { mimeType, url, alt, width, height, focalX, focalY, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber } = props;
 

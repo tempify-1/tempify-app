@@ -127,13 +127,11 @@ export interface PayloadRichText {
 
 import type { AnimationProps } from "../animation-types";
 
-/** Data props for RichText block (used in content definitions) */
 export interface AppBlockRichTextData extends AnimationProps {
   richText?: PayloadRichText;
   class?: string;
 }
 
-/** Full props for RichText component (includes runtime-injected props) */
 export interface AppBlockRichTextProps extends AppBlockRichTextData {
   columnNumber: number;
   blockNumber: number;

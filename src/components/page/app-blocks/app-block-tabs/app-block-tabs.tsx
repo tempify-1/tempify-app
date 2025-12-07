@@ -8,9 +8,6 @@ import type { TabsVariant } from "flowbite-qwik";
 import type { AnimationProps } from "../animation-types";
 import { withViewTransition } from "~/utils/view-transition";
 
-/**
- * Individual tab item structure
- */
 export interface AppBlockTabItem {
   id: string;
   heading: string;
@@ -19,9 +16,6 @@ export interface AppBlockTabItem {
   disabled?: boolean;
 }
 
-/**
- * Data props for Tabs block (used in content definitions)
- */
 export interface AppBlockTabsData extends AnimationProps {
   items?: AppBlockTabItem[];
   class?: string;
@@ -29,18 +23,11 @@ export interface AppBlockTabsData extends AnimationProps {
   directive?: "if" | "show";
 }
 
-/**
- * Full props for Tabs component (includes runtime-injected props)
- */
 export interface AppBlockTabsComponentProps extends AppBlockTabsData {
   columnNumber: number;
   blockNumber: number;
 }
 
-/**
- * AppBlockTabs component that wraps Flowbite's Tabs
- * Each tab has a heading/title and an AppBlockRichText content block
- */
 export const AppBlockTabs = component$<AppBlockTabsComponentProps>((props) => {
   const {
     items = [],

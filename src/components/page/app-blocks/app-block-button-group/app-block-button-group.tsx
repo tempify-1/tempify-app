@@ -11,14 +11,12 @@ export interface AppBlockButtonGroupButtonProps extends ButtonProps {
   suffix?: FlowbiteIconName;
 }
 
-/** Data props for ButtonGroup block (used in content definitions) */
 export interface AppBlockButtonGroupData extends AnimationProps {
   buttons?: AppBlockButtonGroupButtonProps[];
   outline?: boolean;
   class?: string;
 }
 
-/** Full props for ButtonGroup component (includes runtime-injected props) */
 export interface AppBlockButtonGroupProps extends AppBlockButtonGroupData {
   columnNumber: number;
   blockNumber: number;

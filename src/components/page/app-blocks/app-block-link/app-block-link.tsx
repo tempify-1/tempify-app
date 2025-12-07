@@ -1,7 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import type { AnimationProps } from "../animation-types";
 
-/** Data props for Link block (used in content definitions) */
 export interface AppBlockLinkData extends AnimationProps {
   href: string;
   text: string;
@@ -9,7 +8,6 @@ export interface AppBlockLinkData extends AnimationProps {
   class?: string;
 }
 
-/** Full props for Link component (includes runtime-injected props) */
 export interface AppBlockLinkProps extends AppBlockLinkData {
   columnNumber: number;
   blockNumber: number;

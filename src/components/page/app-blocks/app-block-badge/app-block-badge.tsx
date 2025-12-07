@@ -6,7 +6,6 @@ import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 type BadgeType = 'blue' | 'dark' | 'green' | 'red' | 'yellow' | 'indigo' | 'purple' | 'pink' | 'default';
 type BadgeSize = 'xs' | 'sm';
 
-/** Data props for Badge block (used in content definitions) */
 export interface AppBlockBadgeData extends AnimationProps {
   content: string;
   type?: BadgeType;
@@ -17,7 +16,6 @@ export interface AppBlockBadgeData extends AnimationProps {
   class?: string;
 }
 
-/** Full props for Badge component (includes runtime-injected props) */
 export interface AppBlockBadgeProps extends AppBlockBadgeData {
   columnNumber: number;
   blockNumber: number;
