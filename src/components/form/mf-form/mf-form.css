@@ -1,0 +1,108 @@
+.modular-form > form,
+.modular-form .form-grid {
+  --form-min-column-width: 200px;
+  display: grid;
+  column-gap: calc(var(--spacing) * 4);
+  row-gap: calc(var(--spacing) * 4);
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--form-min-column-width), 1fr)
+  );
+  align-items: center;
+
+  label {
+    text-align: left;
+  }
+
+  textarea {
+    field-sizing: content;
+  }
+
+  .field-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 70px;
+
+    &:has([aria-expanded="true"]) {
+      z-index: 25;
+    }
+
+    [aria-expanded="true"] + div {
+      max-height: 30vh;
+      overflow: scroll;
+
+      ul {
+        background-color: inherit;
+        li:has(.combobox-input) {
+          position: sticky;
+          top: -4px;
+          z-index: 10;
+          background-color: inherit;
+        }
+      }
+    }
+
+    .field.error {
+      label,
+      [field] {
+        color: var(--color-red-500);
+        border-color: var(--color-red-500);
+      }
+    }
+
+    &#date-range div[tabindex="0"] {
+      width: 280px;
+
+      ul > li > div {
+        padding: 0px;
+
+        .date-range .shadow-lg {
+          box-shadow: none;
+          padding: calc(var(--spacing) * 2);
+          max-width: 280px;
+        }
+      }
+    }
+
+    input[type="file"] {
+      padding-block: 0;
+    }
+
+    input[type="color"] {
+      min-height: 42px;
+    }
+  }
+
+  .field-array-wrapper {
+    .field-array-list {
+      .field-array-item {
+        &:has([aria-expanded="true"]) {
+          z-index: 25;
+        }
+
+        &:has(.badge-button[aria-expanded="true"]) {
+          z-index: 50;
+        }
+
+        & > .field-wrapper {
+          min-height: unset;
+          min-width: var(--form-min-column-width);
+          .dropdown {
+            padding: 0;
+          }
+          .field {
+            & > label {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  [class*="--ghost"] {
+    z-index: 25;
+  }
+}

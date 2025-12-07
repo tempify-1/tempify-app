@@ -1,0 +1,62 @@
+import { component$ } from "@builder.io/qwik";
+import type { AnimationProps } from "../animation-types";
+
+export type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
+export type TextSize =
+  | "9xl"
+  | "8xl"
+  | "7xl"
+  | "6xl"
+  | "5xl"
+  | "4xl"
+  | "3xl"
+  | "2xl"
+  | "xl"
+  | "lg"
+  | "base"
+  | "sm";
+
+/** Data props for Heading block (used in content definitions) */
+export interface AppBlockHeadingData extends AnimationProps {
+  tag?: HeadingTag;
+  size?: TextSize;
+  content: string;
+  class?: string;
+  [key: string]: any;
+}
+
+/** Full props for Heading component (includes runtime-injected props) */
+export interface AppBlockHeadingProps extends AppBlockHeadingData {
+  columnNumber: number;
+  blockNumber: number;
+}
+
+const sizeClassMap: Record<TextSize, string> = {
+  "9xl": "text-9xl",
+  "8xl": "text-8xl",
+  "7xl": "text-7xl",
+  "6xl": "text-6xl",
+  "5xl": "text-5xl",
+  "4xl": "text-4xl",
+  "3xl": "text-3xl",
+  "2xl": "text-2xl",
+  "xl": "text-xl",
+  "lg": "text-lg",
+  "base": "text-base",
+  "sm": "text-sm",
+};
+
+export const AppBlockHeading = component$((props: AppBlockHeadingProps) => {
+  const { tag = "h2", size = "2xl", content, class: className, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber, ...restProps } = props;
+
+  const Tag = tag as any;
+  const sizeClass = sizeClassMap[size];
+  const combinedClasses = `heading ${sizeClass} ${className || ""}`.trim();
+
+  return (
+    <Tag {...restProps} class={combinedClasses} dangerouslySetInnerHTML={content} data-aos={animation} data-aos-placement={animationPlacement} data-aos-easing={animationEasing} data-aos-delay={(columnNumber * blockNumber) * 50}>
+    </Tag>
+  );
+});
+

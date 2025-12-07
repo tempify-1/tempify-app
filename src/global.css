@@ -1,3 +1,243 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
+@plugin 'flowbite/plugin';
+
+@source "../node_modules/flowbite-qwik";
+
+/* Custom Fonts */
+@font-face {
+  font-family: "GC Heavy";
+  src: url("/fonts/gc-heavy.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cursive";
+  src: url("/fonts/cursive.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  --color-bgContrast: #fafafa;
+}
+@layer theme {
+  .dark {
+    --color-bgContrast: #09090b;
+  }
+}
+
+@theme {
+  --animate-from-left: slideFromLeft 0.2s 1;
+  --animate-from-right: slideFromRight 0.2s 1;
+
+  --min-width-screen-lg: 1024px;
+
+  --container-8xl: 90rem;
+
+  /* Font family - system font stack */
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --font-body:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+  /* shadcn-style border radius values */
+  --radius-sm: 0.375rem;
+  --radius: 0.5rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+
+  @keyframes slideFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  @keyframes slideFromRight {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+
+  /* Flowbite Standard Colors - Tailwind v4 OKLCH values */
+  /* gray = tailwind-zinc, red = tailwind-red, yellow = tailwind-yellow, green = tailwind-emerald, blue = tailwind-blue, indigo = tailwind-indigo, purple = tailwind-violet */
+
+  /* Gray - Tailwind Zinc */
+  --color-gray-50: oklch(0.985 0 0);
+  --color-gray-100: oklch(0.967 0.001 286.375);
+  --color-gray-200: oklch(0.92 0.004 286.32);
+  --color-gray-300: oklch(0.871 0.006 286.286);
+  --color-gray-400: oklch(0.705 0.015 286.067);
+  --color-gray-500: oklch(0.552 0.016 285.938);
+  --color-gray-600: oklch(0.442 0.017 285.786);
+  --color-gray-700: oklch(0.37 0.013 285.805);
+  --color-gray-800: oklch(0.274 0.006 286.033);
+  --color-gray-900: oklch(0.21 0.006 285.885);
+  --color-gray-950: oklch(0.141 0.005 285.823);
+
+  /* Red - Tailwind Red */
+  --color-red-50: oklch(0.971 0.013 17.38);
+  --color-red-100: oklch(0.936 0.032 17.717);
+  --color-red-200: oklch(0.885 0.062 18.334);
+  --color-red-300: oklch(0.808 0.114 19.571);
+  --color-red-400: oklch(0.704 0.191 22.216);
+  --color-red-500: oklch(0.637 0.237 25.331);
+  --color-red-600: oklch(0.577 0.245 27.325);
+  --color-red-700: oklch(0.505 0.213 27.518);
+  --color-red-800: oklch(0.444 0.177 26.899);
+  --color-red-900: oklch(0.396 0.141 25.723);
+  --color-red-950: oklch(0.258 0.092 26.042);
+
+  /* Yellow - Tailwind Yellow */
+  --color-yellow-50: oklch(0.987 0.026 102.212);
+  --color-yellow-100: oklch(0.973 0.071 103.193);
+  --color-yellow-200: oklch(0.945 0.129 101.54);
+  --color-yellow-300: oklch(0.905 0.182 98.111);
+  --color-yellow-400: oklch(0.852 0.199 91.936);
+  --color-yellow-500: oklch(0.795 0.184 86.047);
+  --color-yellow-600: oklch(0.681 0.162 75.834);
+  --color-yellow-700: oklch(0.554 0.135 66.442);
+  --color-yellow-800: oklch(0.476 0.114 61.907);
+  --color-yellow-900: oklch(0.421 0.095 57.708);
+  --color-yellow-950: oklch(0.286 0.066 53.813);
+
+  /* Green - Tailwind Emerald */
+  --color-green-50: oklch(0.979 0.021 166.113);
+  --color-green-100: oklch(0.95 0.052 163.051);
+  --color-green-200: oklch(0.905 0.093 164.15);
+  --color-green-300: oklch(0.845 0.143 164.978);
+  --color-green-400: oklch(0.765 0.177 163.223);
+  --color-green-500: oklch(0.696 0.17 162.48);
+  --color-green-600: oklch(0.596 0.145 163.225);
+  --color-green-700: oklch(0.508 0.118 165.612);
+  --color-green-800: oklch(0.432 0.095 166.913);
+  --color-green-900: oklch(0.378 0.077 168.94);
+  --color-green-950: oklch(0.262 0.051 172.552);
+
+  /* Blue - Tailwind Blue */
+  --color-blue-50: oklch(0.97 0.014 254.604);
+  --color-blue-100: oklch(0.932 0.032 255.585);
+  --color-blue-200: oklch(0.882 0.059 254.128);
+  --color-blue-300: oklch(0.809 0.105 251.813);
+  --color-blue-400: oklch(0.707 0.165 254.624);
+  --color-blue-500: oklch(0.623 0.214 259.815);
+  --color-blue-600: oklch(0.546 0.245 262.881);
+  --color-blue-700: oklch(0.488 0.243 264.376);
+  --color-blue-800: oklch(0.424 0.199 265.638);
+  --color-blue-900: oklch(0.379 0.146 265.522);
+  --color-blue-950: oklch(0.282 0.091 267.935);
+
+  /* Indigo - Tailwind Indigo */
+  --color-indigo-50: oklch(0.962 0.018 272.314);
+  --color-indigo-100: oklch(0.93 0.034 272.788);
+  --color-indigo-200: oklch(0.87 0.065 274.039);
+  --color-indigo-300: oklch(0.785 0.115 274.713);
+  --color-indigo-400: oklch(0.673 0.182 276.935);
+  --color-indigo-500: oklch(0.585 0.233 277.117);
+  --color-indigo-600: oklch(0.511 0.262 276.966);
+  --color-indigo-700: oklch(0.457 0.24 277.023);
+  --color-indigo-800: oklch(0.398 0.195 277.366);
+  --color-indigo-900: oklch(0.359 0.144 278.697);
+  --color-indigo-950: oklch(0.257 0.09 281.288);
+
+  /* Purple - Tailwind Violet */
+  --color-purple-50: oklch(0.969 0.016 293.756);
+  --color-purple-100: oklch(0.943 0.029 294.588);
+  --color-purple-200: oklch(0.894 0.057 293.283);
+  --color-purple-300: oklch(0.811 0.111 293.571);
+  --color-purple-400: oklch(0.702 0.183 293.541);
+  --color-purple-500: oklch(0.606 0.25 292.717);
+  --color-purple-600: oklch(0.541 0.281 293.009);
+  --color-purple-700: oklch(0.491 0.27 292.581);
+  --color-purple-800: oklch(0.432 0.232 292.759);
+  --color-purple-900: oklch(0.38 0.189 293.745);
+  --color-purple-950: oklch(0.283 0.141 291.089);
+
+  /* Pink - Tailwind Rose */
+  --color-pink-50: oklch(0.969 0.015 12.422);
+  --color-pink-100: oklch(0.941 0.03 12.58);
+  --color-pink-200: oklch(0.892 0.058 10.001);
+  --color-pink-300: oklch(0.81 0.117 11.638);
+  --color-pink-400: oklch(0.712 0.194 13.428);
+  --color-pink-500: oklch(0.645 0.246 16.439);
+  --color-pink-600: oklch(0.586 0.253 17.585);
+  --color-pink-700: oklch(0.514 0.222 16.935);
+  --color-pink-800: oklch(0.455 0.188 13.697);
+  --color-pink-900: oklch(0.41 0.159 10.272);
+  --color-pink-950: oklch(0.271 0.105 12.094);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  /* Default body text color */
+  body {
+    color: var(--color-gray-600);
+  }
+
+  .dark body,
+  .dark {
+    color: var(--color-gray-400);
+  }
+
+  /* All headings use GC Heavy font with heading text color */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "GC Heavy", sans-serif;
+    color: var(--color-gray-900);
+  }
+
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6 {
+    color: var(--color-gray-100);
+  }
+
+  /* Italic tags inside headings use Cursive font */
+  h1 i,
+  h2 i,
+  h3 i,
+  h4 i,
+  h5 i,
+  h6 i {
+    font-family: "Cursive", cursive;
+    font-style: normal;
+  }
+}
+
+.dark {
+  color-scheme: dark;
+  background: #09090b;
+}
+.light {
+  color-scheme: light;
+  background: #fafafa;
+}

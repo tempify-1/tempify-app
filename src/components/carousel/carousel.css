@@ -1,0 +1,120 @@
+/* Carousel Container */
+.carousel {
+  position: relative;
+  width: 100%;
+}
+
+/* Scroll Container / Viewport */
+.carousel-viewport {
+  overflow: hidden;
+}
+
+/* Track - scrollable container for slides */
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: var(--carousel-gap, 16px);
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each slotted child becomes a slide - width determined by content */
+.carousel-track > * {
+  flex-shrink: 0;
+  scroll-snap-align: var(--carousel-snap-align, start);
+}
+
+/* Navigation Arrows Container */
+.carousel-arrows {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  padding: 0 0.5rem;
+}
+
+.carousel-arrows > * {
+  pointer-events: auto;
+}
+
+/* Navigation Dots Container */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+/* Individual Dot */
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  
+  /* Light mode default */
+  background-color: var(--color-gray-300);
+}
+
+.carousel-dot:hover {
+  background-color: var(--color-gray-400);
+}
+
+.carousel-dot--active {
+  background-color: var(--color-gray-800);
+  transform: scale(1.2);
+}
+
+.carousel-dot--active:hover {
+  background-color: var(--color-gray-700);
+}
+
+/* Dark mode dots */
+.dark .carousel-dot {
+  background-color: var(--color-gray-600);
+}
+
+.dark .carousel-dot:hover {
+  background-color: var(--color-gray-500);
+}
+
+.dark .carousel-dot--active {
+  background-color: var(--color-gray-200);
+}
+
+.dark .carousel-dot--active:hover {
+  background-color: var(--color-gray-300);
+}
+
+/* Focus styles for accessibility */
+.carousel-dot:focus-visible {
+  outline: 2px solid var(--color-blue-500);
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    scroll-behavior: auto;
+  }
+  
+  .carousel-dot {
+    transition: none;
+  }
+}
+

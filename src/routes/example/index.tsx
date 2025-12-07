@@ -4,17 +4,15 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 export default component$(() => {
   return (
     <>
-      <header style="height:100vh;">
-        <h1>Hi 👋</h1>
+      <span data-embed-icon="IconHomeOutline"></span>
+      <div style="height:200vh;">
+        <h1>Example Hi 👋</h1>
         <div>
           Can't wait to see what you build with qwik!
           <br />
           Happy coding.
         </div>
-      </header>
-      <main>
-
-      </main>
+      </div>
     </>
   );
 });

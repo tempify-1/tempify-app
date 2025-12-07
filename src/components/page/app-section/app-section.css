@@ -1,0 +1,138 @@
+/**
+ * Scoped styles for BlockSection component
+ */
+
+aside.inline-sidebar ~ header,
+aside.inline-sidebar ~ main,
+aside.inline-sidebar ~ footer {
+  --inline-sidebar-width: calc(var(--spacing) * 64);
+}
+
+header.app-section {
+  margin-top: calc(var(--spacing) * -35);
+}
+
+.app-section {
+  --section-max-content-width: 80rem;
+  --section-inline-clip: clamp(16px, 1.5vw, 24px);
+  --section-block-clip: clamp(8px, 0.75vw, 12px);
+
+  /* Base gutter calculations */
+  --section-horizontal-gutter: clamp(
+    5vw,
+    calc((100vw - var(--section-max-content-width)) / 2),
+    10vw
+  );
+  --section-vertical-gutter: clamp(5vh, calc(10vw + 2vh), 24vh);
+
+  /* Horizontal gutter variants */
+  --section-horizontal-gutter-none: 0;
+  --section-horizontal-gutter-xs: calc(var(--section-horizontal-gutter) * 0.25);
+  --section-horizontal-gutter-sm: calc(var(--section-horizontal-gutter) * 0.5);
+  --section-horizontal-gutter-md: calc(var(--section-horizontal-gutter) * 1);
+  --section-horizontal-gutter-lg: calc(var(--section-horizontal-gutter) * 1.5);
+  --section-horizontal-gutter-xl: calc(var(--section-horizontal-gutter) * 2);
+
+  /* Vertical gutter variants */
+  --section-vertical-gutter-none: 0;
+  --section-vertical-gutter-xs: calc(var(--section-vertical-gutter) * 0.25);
+  --section-vertical-gutter-sm: calc(var(--section-vertical-gutter) * 0.5);
+  --section-vertical-gutter-md: calc(var(--section-vertical-gutter) * 1);
+  --section-vertical-gutter-lg: calc(var(--section-vertical-gutter) * 1.5);
+  --section-vertical-gutter-xl: calc(var(--section-vertical-gutter) * 2);
+
+  position: relative;
+
+  &.round-shape {
+    border: transparent solid 0px;
+    border-inline-width: var(--section-inline-clip);
+    border-block-width: var(--section-block-clip);
+    clip-path: inset(
+      var(--section-block-clip) var(--section-inline-clip)
+        var(--section-block-clip) var(--section-inline-clip) round
+        var(--radius-xl)
+    );
+  }
+
+  &.rectangle-shape {
+    border: transparent solid 0px;
+    border-style: solid;
+    border-block-width: var(--section-block-clip);
+    clip-path: inset(var(--section-block-clip) 0 var(--section-block-clip) 0);
+  }
+
+  .eyebrow:has(+ .heading),
+  .badge:has(+ .heading) {
+    margin-block-end: -0.25rem;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6) i {
+    background: linear-gradient(
+      to bottom right,
+      var(--section-accent-light-from),
+      var(--section-accent-light-to)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+  }
+
+  /* Grid layout using CSS variables for responsive columns */
+  .section-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      var(--section-grid-template-columns-xs, 1),
+      minmax(0, 1fr)
+    );
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(
+        var(--section-grid-template-columns-sm, 1),
+        minmax(0, 1fr)
+      );
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(
+        var(--section-grid-template-columns-md, 2),
+        minmax(0, 1fr)
+      );
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(
+        var(--section-grid-template-columns-lg, 2),
+        minmax(0, 1fr)
+      );
+    }
+
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(
+        var(--section-grid-template-columns-xl, 2),
+        minmax(0, 1fr)
+      );
+    }
+
+    @media (min-width: 1536px) {
+      grid-template-columns: repeat(
+        var(--section-grid-template-columns-2xl, 2),
+        minmax(0, 1fr)
+      );
+    }
+  }
+}
+
+html.dark {
+  .app-section :where(h1, h2, h3, h4, h5, h6) i {
+    background: linear-gradient(
+      to bottom right,
+      var(--section-accent-dark-from),
+      var(--section-accent-dark-to)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    color: transparent;
+  }
+}

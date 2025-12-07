@@ -1,0 +1,1 @@
+drag from grid template to other template 
