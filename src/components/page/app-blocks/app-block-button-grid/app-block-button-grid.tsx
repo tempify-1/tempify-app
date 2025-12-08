@@ -24,7 +24,7 @@ export interface AppBlockButtonGridProps extends AppBlockButtonGridData {
 }
 
 export const AppBlockButtonGrid = component$<AppBlockButtonGridProps>((props) => {
-  const { buttons, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
+  const { blockId, buttons, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
 
   if (!buttons || buttons.length === 0) {
     return null;
@@ -33,7 +33,7 @@ export const AppBlockButtonGrid = component$<AppBlockButtonGridProps>((props) =>
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div class={`button-grid grid grid-cols-[repeat(auto-fit,280px)] gap-2 ${className || ""}`.trim()} {...aosProps}>
+    <div id={blockId} class={`button-grid grid grid-cols-[repeat(auto-fit,280px)] gap-2 ${className || ""}`.trim()} {...aosProps}>
       {buttons.map((button, index) => {
         const { label, prefix, suffix, ...buttonProps } = button;
         return (

@@ -21,6 +21,7 @@ export interface AppBlockReviewProps extends AppBlockReviewData {
 
 export const AppBlockReview = component$<AppBlockReviewProps>((props) => {
   const {
+    blockId,
     rating,
     scale = 5,
     size = "md",
@@ -38,7 +39,7 @@ export const AppBlockReview = component$<AppBlockReviewProps>((props) => {
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div class={combinedClasses} {...aosProps}>
+    <div id={blockId} class={combinedClasses} {...aosProps}>
       <Rating
         rating={rating}
         scale={scale}

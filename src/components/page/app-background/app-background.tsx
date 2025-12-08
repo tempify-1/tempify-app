@@ -46,7 +46,10 @@ export const AppBackground = component$((props: AppBackgroundProps) => {
   if (isVideo) {
     return (
       <video
-        controls
+        autoplay
+        muted
+        loop
+        playsInline
         width={width}
         height={height}
         class={baseClasses}

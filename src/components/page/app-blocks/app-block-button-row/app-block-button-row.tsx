@@ -24,7 +24,7 @@ export interface AppBlockButtonRowProps extends AppBlockButtonRowData {
 }
 
 export const AppBlockButtonRow = component$<AppBlockButtonRowProps>((props) => {
-  const { buttons, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
+  const { blockId, buttons, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
 
   if (!buttons || buttons.length === 0) {
     return null;
@@ -33,7 +33,7 @@ export const AppBlockButtonRow = component$<AppBlockButtonRowProps>((props) => {
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div class={`button-row flex flex-wrap gap-2 ${className || ""}`.trim()} {...aosProps}>
+    <div id={blockId} class={`button-row flex flex-wrap gap-2 ${className || ""}`.trim()} {...aosProps}>
       {buttons.map((button, index) => {
         const { label, prefix, suffix, ...buttonProps } = button;
         return (

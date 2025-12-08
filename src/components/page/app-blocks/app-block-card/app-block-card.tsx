@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Card } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { AppBlockMedia, type AppBlockMediaData } from "../app-block-media/app-block-media";
 import { AppBlockRichText, type PayloadRichText } from "../app-block-rich-text/app-block-rich-text";
 
@@ -21,15 +21,16 @@ export interface AppBlockCardProps extends AppBlockCardData {
 
 export const AppBlockCard = component$<AppBlockCardProps>((props) => {
   const {
+    blockId,
     horizontal = false,
     href,
     media,
     richText,
     sticky = false,
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
@@ -52,15 +53,10 @@ export const AppBlockCard = component$<AppBlockCardProps>((props) => {
   };
 
   // Don't animate sticky cards - animations interfere with the stacking effect
-  const aosProps = sticky ? {} : {
-    "data-aos": animation,
-    "data-aos-placement": animationPlacement,
-    "data-aos-easing": animationEasing,
-    "data-aos-delay": (columnNumber * blockNumber) * 50,
-  };
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber, disabled: sticky });
 
   return (
-    <div {...aosProps} class={stickyClass || undefined}>
+    <div id={blockId} {...aosProps} class={stickyClass || undefined}>
       <Card
         horizontal={horizontal}
         href={href}

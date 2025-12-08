@@ -29,6 +29,7 @@ export interface AppBlockAvatarProps extends AppBlockAvatarData {
 
 export const AppBlockAvatar = component$<AppBlockAvatarProps>((props) => {
   const {
+    blockId,
     alt,
     bordered,
     img,
@@ -52,7 +53,7 @@ export const AppBlockAvatar = component$<AppBlockAvatarProps>((props) => {
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div {...aosProps}>
+    <div id={blockId} {...aosProps}>
       <Avatar
         alt={alt}
         bordered={bordered}

@@ -49,7 +49,7 @@ const sizeClassMap: Record<TextSize, string> = {
 };
 
 export const AppBlockHeading = component$((props: AppBlockHeadingProps) => {
-  const { tag = "h2", size = "2xl", content, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...restProps } = props;
+  const { blockId, tag = "h2", size = "2xl", content, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
 
   const Tag = tag as unknown as DynamicTagComponent;
   const sizeClass = sizeClassMap[size];
@@ -57,7 +57,7 @@ export const AppBlockHeading = component$((props: AppBlockHeadingProps) => {
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <Tag {...restProps} class={combinedClasses} dangerouslySetInnerHTML={sanitizeHtml(content)} {...aosProps}>
+    <Tag id={blockId} class={combinedClasses} dangerouslySetInnerHTML={sanitizeHtml(content)} {...aosProps}>
     </Tag>
   );
 });

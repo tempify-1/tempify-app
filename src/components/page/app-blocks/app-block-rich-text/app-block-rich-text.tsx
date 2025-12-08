@@ -284,7 +284,7 @@ const renderNode = (node: SerializedNode, index: number): JSXOutput => {
 };
 
 export const AppBlockRichText = component$<AppBlockRichTextProps>((props) => {
-  const { richText, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
+  const { blockId, richText, class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
 
   if (!richText?.root) {
     return null;
@@ -293,7 +293,7 @@ export const AppBlockRichText = component$<AppBlockRichTextProps>((props) => {
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div class={className} {...aosProps}>
+    <div id={blockId} class={className} {...aosProps}>
       {richText.root.children.map((child, i) => renderNode(child, i))}
     </div>
   );

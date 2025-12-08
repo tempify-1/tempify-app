@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { AppBlockCard, type AppBlockCardData } from "../app-block-card/app-block-card";
 import { Carousel, type CarouselProps } from "~/components/ui/carousel/carousel";
 
@@ -16,6 +16,7 @@ export interface AppBlockCarouselProps extends AppBlockCarouselData {
 
 export const AppBlockCarousel = component$<AppBlockCarouselProps>((props) => {
   const {
+    blockId,
     cards,
     showArrows = true,
     showDots = true,
@@ -24,9 +25,9 @@ export const AppBlockCarousel = component$<AppBlockCarouselProps>((props) => {
     visibilityThreshold = 0.5,
     ariaLabel = "Card carousel",
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
@@ -35,15 +36,10 @@ export const AppBlockCarousel = component$<AppBlockCarouselProps>((props) => {
     return null;
   }
 
-  const aosProps = {
-    "data-aos": animation,
-    "data-aos-placement": animationPlacement,
-    "data-aos-easing": animationEasing,
-    "data-aos-delay": columnNumber * blockNumber * 50,
-  };
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div {...aosProps}>
+    <div id={blockId} {...aosProps}>
       <Carousel
         showArrows={showArrows}
         showDots={showDots}

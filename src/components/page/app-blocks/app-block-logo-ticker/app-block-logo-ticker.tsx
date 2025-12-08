@@ -24,6 +24,7 @@ export const AppBlockLogoTicker = component$<AppBlockLogoTickerProps>((props) =>
   useStyles$(styles);
 
   const {
+    blockId,
     logos,
     duration = 30,
     reverse = false,
@@ -71,6 +72,7 @@ export const AppBlockLogoTicker = component$<AppBlockLogoTickerProps>((props) =>
 
   return (
     <div
+      id={blockId}
       class={containerClasses}
       style={{
         "--ticker-duration": `${adjustedDuration}s`,

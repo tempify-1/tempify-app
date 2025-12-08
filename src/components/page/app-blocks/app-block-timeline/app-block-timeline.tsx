@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Timeline } from "flowbite-qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
 import { AppBlockRichText, type PayloadRichText } from "../app-block-rich-text/app-block-rich-text";
 
@@ -29,26 +29,21 @@ export interface AppBlockTimelineProps extends AppBlockTimelineData {
 
 export const AppBlockTimeline = component$<AppBlockTimelineProps>((props) => {
   const {
+    blockId,
     horizontal = false,
     items,
     class: className,
-    animation = "fade-up",
-    animationPlacement = "center-center",
-    animationEasing = "ease-in-out-quad",
+    animation,
+    animationPlacement,
+    animationEasing,
     columnNumber,
     blockNumber,
   } = props;
 
-  // Don't add AOS props if animation is 'none'
-  const aosProps = animation && animation !== "none" ? {
-    "data-aos": animation,
-    "data-aos-placement": animationPlacement,
-    "data-aos-easing": animationEasing,
-    "data-aos-delay": (columnNumber * blockNumber) * 50,
-  } : {};
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div {...aosProps}>
+    <div id={blockId} {...aosProps}>
       <Timeline horizontal={horizontal} class={className}>
         {items.map((item, index) => {
           const IconComponent = item.icon ? getIcon(item.icon) : undefined;

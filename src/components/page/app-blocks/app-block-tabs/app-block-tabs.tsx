@@ -31,6 +31,7 @@ export interface AppBlockTabsProps extends AppBlockTabsData {
 
 export const AppBlockTabs = component$<AppBlockTabsProps>((props) => {
   const {
+    blockId,
     items = [],
     class: className,
     variant,
@@ -79,6 +80,7 @@ export const AppBlockTabs = component$<AppBlockTabsProps>((props) => {
 
   return (
     <div
+      id={blockId}
       class={defaultClass}
       {...aosProps}
       ref={tabsContainerRef}

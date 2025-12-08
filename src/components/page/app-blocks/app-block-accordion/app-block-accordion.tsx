@@ -42,7 +42,7 @@ export const AppBlockAccordion = component$<AppBlockAccordionProps>((props) => {
     }
   `);
 
-  const { items = [], class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...accordionProps } = props;
+  const { blockId, items = [], class: className, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...accordionProps } = props;
 
   const defaultClass = "accordion";
   const combinedClasses = `${defaultClass} ${className || ""}`.trim();
@@ -53,7 +53,8 @@ export const AppBlockAccordion = component$<AppBlockAccordionProps>((props) => {
   }
 
   return (
-    <Accordion {...accordionProps} class={combinedClasses} {...aosProps}>
+    <div id={blockId} {...aosProps}>
+      <Accordion {...accordionProps} class={combinedClasses}>
       {items.map((item) => (
         <Accordion.Panel key={item.id}>
           <Accordion.Header class="[&>button>svg]:transition [&>button>svg]:duration-200 [&>button>svg]:ease-in-out">{item.heading}</Accordion.Header>
@@ -62,7 +63,8 @@ export const AppBlockAccordion = component$<AppBlockAccordionProps>((props) => {
           </Accordion.Content>
         </Accordion.Panel>
       ))}
-    </Accordion>
+      </Accordion>
+    </div>
   );
 });
 

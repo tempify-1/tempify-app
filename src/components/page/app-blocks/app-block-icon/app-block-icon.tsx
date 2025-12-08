@@ -1,16 +1,9 @@
 import { component$ } from "@builder.io/qwik";
 import { getAosProps, type AnimationProps } from "../animation-types";
 import { getIcon, type FlowbiteIconName } from "~/utils/icon-utility";
+import type { ThemeColor } from "../../types/theme-types";
 
-export type IconColor =
-  | "blue"
-  | "red"
-  | "green"
-  | "yellow"
-  | "purple"
-  | "pink"
-  | "indigo"
-  | "gray";
+export type IconColor = Exclude<ThemeColor, "transparent">;
 
 export type IconSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32;
 
@@ -60,6 +53,7 @@ export interface AppBlockIconProps extends AppBlockIconData {
 
 export const AppBlockIcon = component$<AppBlockIconProps>((props) => {
   const {
+    blockId,
     name,
     color,
     size = 6,
@@ -77,7 +71,7 @@ export const AppBlockIcon = component$<AppBlockIconProps>((props) => {
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <div {...aosProps}>
+    <div id={blockId} {...aosProps}>
       <Icon class={combinedClasses} />
     </div>
   );

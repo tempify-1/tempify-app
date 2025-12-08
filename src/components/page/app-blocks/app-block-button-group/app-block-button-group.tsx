@@ -25,6 +25,7 @@ export interface AppBlockButtonGroupProps extends AppBlockButtonGroupData {
 
 export const AppBlockButtonGroup = component$<AppBlockButtonGroupProps>((props) => {
   const {
+    blockId,
     buttons,
     outline,
     class: className,
@@ -42,11 +43,11 @@ export const AppBlockButtonGroup = component$<AppBlockButtonGroupProps>((props) 
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   return (
-    <ButtonGroup
-      outline={outline}
-      class={`button-group ${className || ""}`.trim()}
-      {...aosProps}
-    >
+    <div id={blockId} {...aosProps}>
+      <ButtonGroup
+        outline={outline}
+        class={`button-group ${className || ""}`.trim()}
+      >
       {buttons.map((button, index) => {
         const { label, prefix, suffix, ...buttonProps } = button;
         return (
@@ -60,7 +61,8 @@ export const AppBlockButtonGroup = component$<AppBlockButtonGroupProps>((props) 
           </Button>
         );
       })}
-    </ButtonGroup>
+      </ButtonGroup>
+    </div>
   );
 });
 

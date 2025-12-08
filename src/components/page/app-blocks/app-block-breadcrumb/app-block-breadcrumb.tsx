@@ -25,6 +25,7 @@ export interface AppBlockBreadcrumbProps extends AppBlockBreadcrumbData {
 
 export const AppBlockBreadcrumb = component$<AppBlockBreadcrumbProps>((props) => {
   const {
+    blockId,
     items,
     solid = false,
     class: className,
@@ -45,6 +46,7 @@ export const AppBlockBreadcrumb = component$<AppBlockBreadcrumbProps>((props) =>
 
   return (
     <div
+      id={blockId}
       class={combinedClasses}
       {...aosProps}
     >

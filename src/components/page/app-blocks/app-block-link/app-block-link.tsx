@@ -16,6 +16,7 @@ export interface AppBlockLinkProps extends AppBlockLinkData {
 
 export const AppBlockLink = component$((props: AppBlockLinkProps) => {
   const {
+    blockId,
     href,
     text,
     newTab = false,
@@ -31,6 +32,7 @@ export const AppBlockLink = component$((props: AppBlockLinkProps) => {
 
   return (
     <a
+      id={blockId}
       href={href}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : undefined}

@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Image } from "@unpic/qwik";
-import type { AnimationProps } from "../animation-types";
+import { getAosProps, type AnimationProps } from "../animation-types";
 
 export interface AppBlockMediaData extends AnimationProps {
   blockId?: string;
@@ -26,7 +26,7 @@ export interface AppBlockMediaProps extends AppBlockMediaData {
 }
 
 export const AppBlockMedia = component$((props: AppBlockMediaProps) => {
-  const { mimeType, url, alt, width, height, focalX, focalY, animation = "fade-up", animationPlacement = "center-center", animationEasing = "ease-in-out-quad", columnNumber, blockNumber } = props;
+  const { blockId, mimeType, url, alt, width, height, focalX, focalY, animation, animationPlacement, animationEasing, columnNumber, blockNumber } = props;
 
   // Determine media type from mimeType
   const isImage = mimeType.startsWith("image/");
@@ -36,17 +36,12 @@ export const AppBlockMedia = component$((props: AppBlockMediaProps) => {
   // Calculate object position from focal point
   const objectPosition = `${focalX}% ${focalY}%`;
 
-  // Don't add AOS props if animation is 'none' or undefined
-  const aosProps = animation && animation !== 'none' ? {
-    "data-aos": animation,
-    "data-aos-placement": animationPlacement,
-    "data-aos-easing": animationEasing,
-    "data-aos-delay": (columnNumber * blockNumber) * 50,
-  } : {};
+  // Use centralized getAosProps utility
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
   if (isImage) {
     return (
-      <div {...aosProps}>
+      <div id={blockId} {...aosProps}>
         <Image
           src={url}
           layout="constrained"
@@ -62,6 +57,7 @@ export const AppBlockMedia = component$((props: AppBlockMediaProps) => {
   if (isVideo) {
     return (
       <video
+        id={blockId}
         controls
         width={width}
         height={height}
@@ -77,6 +73,7 @@ export const AppBlockMedia = component$((props: AppBlockMediaProps) => {
   if (isPDF) {
     return (
       <embed
+        id={blockId}
         src={url}
         type="application/pdf"
         width={width}
@@ -88,7 +85,7 @@ export const AppBlockMedia = component$((props: AppBlockMediaProps) => {
 
   // Fallback for unsupported media types
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" {...aosProps}>
+    <a id={blockId} href={url} target="_blank" rel="noopener noreferrer" {...aosProps}>
       {alt || "Download file"}
     </a>
   );

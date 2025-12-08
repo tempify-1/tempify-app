@@ -29,6 +29,7 @@ export interface AppBlockTileProps extends AppBlockTileData {
 
 export const AppBlockTile = component$<AppBlockTileProps>((props) => {
   const {
+    blockId,
     richText,
     backgroundTheme = "gray",
     foregroundTheme = "gray",
@@ -74,10 +75,10 @@ export const AppBlockTile = component$<AppBlockTileProps>((props) => {
   };
 
   // Don't animate sticky tiles - animations interfere with the stacking effect
-  const aosProps = sticky ? {} : getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
+  const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber, disabled: sticky });
 
   return (
-    <div class={combinedClasses} {...aosProps}>
+    <div id={blockId} class={combinedClasses} {...aosProps}>
       {renderIcon()}
       <AppBlockRichText columnNumber={columnNumber} blockNumber={blockNumber} richText={richText} />
     </div>

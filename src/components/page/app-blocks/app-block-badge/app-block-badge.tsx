@@ -23,13 +23,17 @@ export interface AppBlockBadgeProps extends AppBlockBadgeData {
 }
 
 export const AppBlockBadge = component$<AppBlockBadgeProps>((props) => {
-  const { class: className, icon, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...restProps } = props;
+  const { blockId, class: className, icon, animation, animationPlacement, animationEasing, columnNumber, blockNumber, ...restProps } = props;
 
   const defaultClass = "badge";
   const combinedClasses = `${defaultClass} ${className || ""}`.trim();
   const IconComponent = icon ? getIcon(icon) : undefined;
   const aosProps = getAosProps({ animation, animationPlacement, animationEasing, columnNumber, blockNumber });
 
-  return <Badge {...restProps} icon={IconComponent} class={combinedClasses} {...aosProps} />;
+  return (
+    <div id={blockId} {...aosProps}>
+      <Badge {...restProps} icon={IconComponent} class={combinedClasses} />
+    </div>
+  );
 });
 
