@@ -22,7 +22,6 @@ import {
   updateNavMode,
 } from "~/contexts/layout-state";
 import { LayoutConfigType, LayoutConfig } from "~/contexts/layout-config";
-import { getIcon } from "~/utils/icon-utility";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -32,7 +31,7 @@ import "aos/dist/aos.css";
  * Used for standard application pages that need the complete navigation structure
  */
 export const AppMainLayout = component$(() => {
-  // Layout config with navbar configuration /* move to service.
+  // Layout config with navbar configuration - uses icon names (strings) for Payload compatibility
   const layoutConfig = useStore<LayoutConfigType>({
     dashboard: useSignal(false),
     bannerConfig: {
@@ -40,10 +39,10 @@ export const AppMainLayout = component$(() => {
       visible: true,
       dismissible: true,
       sticky: true,
-      icon: getIcon("IconShareNodesSolid"),
+      icon: "IconShareNodesSolid",
       content: "New brand identity has been launched for the",
       link: {
-        text: "Flowbite Library",
+        label: "Flowbite Library",
         href: "https://flowbite.com",
         underline: true,
       },
@@ -53,7 +52,6 @@ export const AppMainLayout = component$(() => {
         type: "link",
         href: "/navbars",
         label: "Home",
-        active: true,
       },
       {
         type: "link",
@@ -64,15 +62,9 @@ export const AppMainLayout = component$(() => {
         type: "dropdown",
         label: "Services",
         items: [
-          {
-            link: { label: "Dashboard", href: "/dashboard" },
-          },
-          {
-            link: { label: "Settings", href: "/settings" },
-          },
-          {
-            link: { label: "Earnings", href: "/earnings" },
-          },
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Settings", href: "/settings" },
+          { label: "Earnings", href: "/earnings" },
         ],
       },
       {
@@ -91,79 +83,36 @@ export const AppMainLayout = component$(() => {
         type: "group",
         navMode: "sidebar",
         items: [
-          {
-            label: "Dashboard",
-            icon: getIcon("IconHomeOutline"),
-            href: "/dashboard",
-          },
-          {
-            label: "Inbox",
-            icon: getIcon("IconInboxOutline"),
-          },
-          {
-            label: "Users",
-            icon: getIcon("IconUserCircleOutline"),
-          },
-          {
-            label: "Products",
-            icon: getIcon("IconShoppingBagOutline"),
-          },
-          {
-            label: "Documentation",
-            icon: getIcon("IconFileEditSolid"),
-          },
-          {
-            label: "Help",
-            icon: getIcon("IconAdressBookOutline"),
-          },
-          {
-            label: "Settings",
-            icon: getIcon("IconGearSolid"),
-          },
-          {
-            label: "Details",
-            icon: getIcon("IconAtomSolid"),
-          },
+          { label: "Dashboard", icon: "IconHomeOutline", href: "/dashboard" },
+          { label: "Inbox", icon: "IconInboxOutline" },
+          { label: "Users", icon: "IconUserCircleOutline" },
+          { label: "Products", icon: "IconShoppingBagOutline" },
+          { label: "Documentation", icon: "IconFileEditSolid" },
+          { label: "Help", icon: "IconAdressBookOutline" },
+          { label: "Settings", icon: "IconGearSolid" },
+          { label: "Details", icon: "IconAtomSolid" },
         ],
       },
-
       {
         type: "collapse",
         label: "Collapse",
         navMode: "navbar",
-        icon: getIcon("IconAdjustmentsHorizontalSolid"),
+        icon: "IconAdjustmentsHorizontalSolid",
         items: [
-          {
-            label: "Dashboard",
-          },
-          {
-            label: "Inbox",
-          },
-          {
-            label: "Users",
-          },
-          {
-            label: "Products",
-          },
+          { label: "Dashboard" },
+          { label: "Inbox" },
+          { label: "Users" },
+          { label: "Products" },
         ],
       },
-
       {
         type: "group",
         navMode: "mobile",
         items: [
-          {
-            label: "Mobile Dashboard",
-            icon: getIcon("IconHomeOutline"),
-            href: "/mobile-dashboard",
-          },
-          {
-            label: "Quick Actions",
-            icon: getIcon("IconGearSolid"),
-          },
+          { label: "Mobile Dashboard", icon: "IconHomeOutline", href: "/mobile-dashboard" },
+          { label: "Quick Actions", icon: "IconGearSolid" },
         ],
       },
-
       {
         type: "cta",
         navMode: "both",
@@ -175,7 +124,6 @@ export const AppMainLayout = component$(() => {
           "Preview the new Flowbite dashboard navigation! You can turn the new navigation off for a limited time in your profile.",
         actionText: "Turn new navigation off",
         actionHref: "#",
-        onClose$: $(undefined),
       },
     ],
   });

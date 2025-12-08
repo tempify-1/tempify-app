@@ -1,7 +1,8 @@
 import { component$, useContext, useSignal, $ } from "@builder.io/qwik";
 import { Sidebar, Badge } from "flowbite-qwik";
-import { LayoutConfig } from "~/contexts/layout-config";
+import { LayoutConfig, type NavMode } from "~/contexts/layout-config";
 import { LayoutState } from "~/contexts/layout-state";
+import { getIcon } from "~/utils/icon-utility";
 
 export const AppSidebar = component$(() => {
   const layoutState = useContext(LayoutState);
@@ -10,9 +11,7 @@ export const AppSidebar = component$(() => {
   const inlineSidebarOpen = useSignal(false);
 
   // Helper function to check if section should render based on navMode
-  const shouldRenderSection = (
-    sectionNavMode: "sidebar" | "navbar" | "mobile" | "both",
-  ) => {
+  const shouldRenderSection = (sectionNavMode: NavMode) => {
     return (
       sectionNavMode === "both" ||
       sectionNavMode === layoutState.navMode.value
@@ -71,9 +70,10 @@ export const AppSidebar = component$(() => {
             return (
               <Sidebar.ItemGroup key={sectionIndex}>
                 {section.items.map((item, itemIndex) => {
-                  const { label, ...itemProps } = item;
+                  const { label, icon, ...itemProps } = item;
+                  const Icon = icon ? getIcon(icon) : undefined;
                   return (
-                    <Sidebar.Item key={itemIndex} {...itemProps}>
+                    <Sidebar.Item key={itemIndex} icon={Icon} {...itemProps}>
                       <span class="text-sm">{label}</span>
                     </Sidebar.Item>
                   );
@@ -81,18 +81,21 @@ export const AppSidebar = component$(() => {
               </Sidebar.ItemGroup>
             );
           } else if (section.type === "collapse") {
+            const CollapseIcon = section.icon ? getIcon(section.icon) : undefined;
             return (
               <Sidebar.ItemGroup key={sectionIndex}>
                 <Sidebar.Collapse
                   class="text-sm [&>svg]:h-4 [&>svg]:w-4"
                   label={section.label}
-                  icon={section.icon}
+                  icon={CollapseIcon}
                 >
                   {section.items.map((collapseItem, collapseItemIndex) => {
-                    const { label, ...collapseItemProps } = collapseItem;
+                    const { label, icon, ...collapseItemProps } = collapseItem;
+                    const ItemIcon = icon ? getIcon(icon) : undefined;
                     return (
                       <Sidebar.Item
                         key={collapseItemIndex}
+                        icon={ItemIcon}
                         {...collapseItemProps}
                       >
                         <span class="text-sm">{label}</span>

@@ -12,6 +12,7 @@ import {
   updateScrollThreshold,
 } from "~/contexts/layout-state";
 import { LayoutConfig } from "~/contexts/layout-config";
+import { getIcon } from "~/utils/icon-utility";
 
 export const AppBanner = component$(() => {
   const bannerRef = useSignal<Element>();
@@ -20,6 +21,9 @@ export const AppBanner = component$(() => {
 
   // Data-driven banner configuration following the navbar/sidebar pattern
   const bannerConfig = layoutConfig.bannerConfig;
+
+  // Resolve icon from string name
+  const Icon = bannerConfig ? getIcon(bannerConfig.icon) : null;
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(
@@ -47,13 +51,18 @@ export const AppBanner = component$(() => {
         <div class="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
           <div class="mx-auto flex items-center">
             <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
-              <bannerConfig.icon class="mr-4 h-4 w-4" />
+              {Icon && <Icon class="mr-4 h-4 w-4" />}
               <span class="[&_p]:inline">
                 {bannerConfig.content}
                 {bannerConfig.link && (
                   <>
                     &nbsp;
-                    <Link {...bannerConfig.link}>{bannerConfig.link.text}</Link>
+                    <Link
+                      href={bannerConfig.link.href}
+                      underline={bannerConfig.link.underline}
+                    >
+                      {bannerConfig.link.label}
+                    </Link>
                   </>
                 )}
               </span>

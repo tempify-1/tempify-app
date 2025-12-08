@@ -84,19 +84,19 @@ export const AppNavbar = component$(() => {
 
       {layoutState.navMode.value === "navbar" && (
         <ul class="mr-1 ml-2 flex grow content-center items-center justify-center gap-3">
-          {layoutConfig.appNavbarConfig?.map((link, index) => (
+          {layoutConfig.appNavbarConfig?.map((navItem, index) => (
             <li key={index}>
-              {link.type === "link" ? (
-                <Navbar.Link class="text-inherit" {...link}>
-                  {link.label}
+              {navItem.type === "link" ? (
+                <Navbar.Link class="text-inherit" href={navItem.href}>
+                  {navItem.label}
                 </Navbar.Link>
-              ) : link.type === "dropdown" ? (
+              ) : navItem.type === "dropdown" ? (
                 <Navbar.Link tag="div" class="text-inherit [&>*]:text-inherit">
-                  <Dropdown {...link} class="nav-dropdown" inline size={"l"}>
-                    {link.items?.map((item, itemIndex) => (
-                      <Dropdown.Item key={itemIndex} {...item}>
-                        <Link class="text-inherit" href={item.link.href}>
-                          {item.link.label}
+                  <Dropdown label={navItem.label} class="nav-dropdown" inline size={"l"}>
+                    {navItem.items?.map((item, itemIndex) => (
+                      <Dropdown.Item key={itemIndex}>
+                        <Link class="text-inherit" href={item.href}>
+                          {item.label}
                         </Link>
                       </Dropdown.Item>
                     ))}

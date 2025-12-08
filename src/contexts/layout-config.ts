@@ -1,69 +1,98 @@
-import { Component, createContextId, Signal } from "@builder.io/qwik";
-import { Navbar, Dropdown, Link, Sidebar } from "flowbite-qwik";
-import { IconProps } from "flowbite-qwik-icons";
+import { createContextId, Signal } from "@builder.io/qwik";
+import type { FlowbiteIconName } from "~/utils/flowbite-icons";
 
-type Link = Parameters<typeof Link>[0];
-type NavbarLinkProps = Parameters<typeof Navbar.Link>[0];
-type DropdownProps = Parameters<typeof Dropdown>[0];
-type DropdownItemProps = Parameters<typeof Dropdown.Item>[0];
-type SidebarItemGroupProps = Parameters<typeof Sidebar.ItemGroup>[0];
-type SidebarItemProps = Parameters<typeof Sidebar.Item>[0];
-type SidebarCollapseProps = Parameters<typeof Sidebar.Collapse>[0];
-type SidebarCtaProps = Parameters<typeof Sidebar.Cta>[0];
+// ============================================================================
+// BASIC LINK - Payload-compatible subset (no QRL functions)
+// ============================================================================
+export interface LinkConfig {
+  href: string;
+  label: string;
+  external?: boolean;
+  underline?: boolean;
+}
 
-interface BannerConfig {
+// ============================================================================
+// BANNER CONFIG
+// ============================================================================
+export interface BannerConfig {
   id?: string;
   visible?: boolean;
   dismissible?: boolean;
   sticky?: boolean;
-  icon: Component<IconProps>;
+  icon: FlowbiteIconName; // String name, resolved via getIcon()
   content: string;
-  link?: {
-    text: string;
-  } & Link;
+  link?: LinkConfig;
 }
 
+// ============================================================================
+// NAVBAR CONFIG
+// ============================================================================
+export interface NavbarLinkConfig {
+  type: "link";
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+export interface NavbarDropdownConfig {
+  type: "dropdown";
+  label: string;
+  icon?: FlowbiteIconName;
+  items: LinkConfig[];
+}
+
+export type NavbarItemConfig = NavbarLinkConfig | NavbarDropdownConfig;
+
+// ============================================================================
+// SIDEBAR CONFIG
+// ============================================================================
+export type NavMode = "sidebar" | "navbar" | "mobile" | "both";
+
+export interface SidebarItemConfig {
+  label: string;
+  href?: string;
+  icon?: FlowbiteIconName;
+}
+
+export interface SidebarGroupConfig {
+  type: "group";
+  navMode: NavMode;
+  items: SidebarItemConfig[];
+}
+
+export interface SidebarCollapseConfig {
+  type: "collapse";
+  navMode: NavMode;
+  label: string;
+  icon?: FlowbiteIconName;
+  items: SidebarItemConfig[];
+}
+
+export type BadgeType = "yellow" | "red" | "green" | "blue" | "indigo" | "purple" | "pink";
+
+export interface SidebarCtaConfig {
+  type: "cta";
+  navMode: NavMode;
+  badge: {
+    type: BadgeType;
+    content: string;
+  };
+  description: string;
+  actionText: string;
+  actionHref: string;
+  // Note: onClose$ removed - handled by component internally
+}
+
+export type SidebarItemGroupConfig = SidebarGroupConfig | SidebarCollapseConfig | SidebarCtaConfig;
+
+// ============================================================================
+// LAYOUT CONFIG TYPE
+// ============================================================================
 export type LayoutConfigType = {
   dashboard: Signal<boolean>;
   bannerConfig: BannerConfig | null;
-  appNavbarConfig: Array<
-    | ({ type: "link"; label: string } & NavbarLinkProps)
-    | ({
-        type: "dropdown";
-        items: Array<{ link: { label: string } & Link } & DropdownItemProps>;
-      } & DropdownProps)
-  > | null;
-  appSidebarConfig: Array<
-    | ({
-        type: "group";
-        navMode: "sidebar" | "navbar" | "mobile" | "both";
-        items: Array<{ label: string } & SidebarItemProps>;
-      } & SidebarItemGroupProps)
-    | ({
-        type: "collapse";
-        navMode: "sidebar" | "navbar" | "mobile" | "both";
-        items: Array<{ label: string } & SidebarItemProps>;
-      } & SidebarCollapseProps)
-    | ({
-        type: "cta";
-        navMode: "sidebar" | "navbar" | "mobile" | "both";
-        badge: {
-          type:
-            | "yellow"
-            | "red"
-            | "green"
-            | "blue"
-            | "indigo"
-            | "purple"
-            | "pink";
-          content: string;
-        };
-        description: string;
-        actionText: string;
-        actionHref: string;
-        onClose$: () => void;
-      } & SidebarCtaProps)
-  > | null;
+  appNavbarConfig: NavbarItemConfig[] | null;
+  appSidebarConfig: SidebarItemGroupConfig[] | null;
 };
 
 export const LayoutConfig = createContextId<LayoutConfigType>("app.layout-config");

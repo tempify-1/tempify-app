@@ -757,3 +757,515 @@ export default component$(() => {
 
 This architecture lets you fetch **only card data** for page listings without loading the entire page content.
 
+---
+
+# Layouts Collection - Per-Route Navigation
+
+Since navigation (navbar, sidebar, banner) varies per route, use a **Layouts Collection** instead of globals.
+
+## Layout Config Type Reference
+
+The frontend `LayoutConfigType` now uses serializable data (icon names as strings, no QRL functions):
+
+```typescript
+// contexts/layout-config.ts (frontend)
+export interface LinkConfig {
+  href: string;
+  label: string;
+  external?: boolean;
+  underline?: boolean;
+}
+
+export interface BannerConfig {
+  id?: string;
+  visible?: boolean;
+  dismissible?: boolean;
+  sticky?: boolean;
+  icon: string; // FlowbiteIconName - resolved via getIcon()
+  content: string;
+  link?: LinkConfig;
+}
+
+export interface NavbarLinkConfig {
+  type: "link";
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+export interface NavbarDropdownConfig {
+  type: "dropdown";
+  label: string;
+  icon?: string;
+  items: LinkConfig[];
+}
+
+export type NavbarItemConfig = NavbarLinkConfig | NavbarDropdownConfig;
+
+export type NavMode = "sidebar" | "navbar" | "mobile" | "both";
+
+export interface SidebarItemConfig {
+  label: string;
+  href?: string;
+  icon?: string;
+}
+
+export interface SidebarGroupConfig {
+  type: "group";
+  navMode: NavMode;
+  items: SidebarItemConfig[];
+}
+
+export interface SidebarCollapseConfig {
+  type: "collapse";
+  navMode: NavMode;
+  label: string;
+  icon?: string;
+  items: SidebarItemConfig[];
+}
+
+export interface SidebarCtaConfig {
+  type: "cta";
+  navMode: NavMode;
+  badge: { type: BadgeType; content: string };
+  description: string;
+  actionText: string;
+  actionHref: string;
+}
+```
+
+---
+
+## Layouts Collection Config
+
+```typescript
+// collections/Layouts.ts
+import type { CollectionConfig, Block } from 'payload'
+
+// Reusable link fields
+const linkFields = [
+  { name: 'label', type: 'text' as const, required: true },
+  { name: 'href', type: 'text' as const, required: true },
+  { name: 'external', type: 'checkbox' as const, defaultValue: false },
+  { name: 'underline', type: 'checkbox' as const, defaultValue: false },
+]
+
+// Icon select with common Flowbite icons
+const iconField = {
+  name: 'icon',
+  type: 'text' as const,
+  admin: {
+    description: 'Flowbite icon name (e.g., IconHomeOutline, IconGearSolid)',
+  },
+}
+
+// NavMode select
+const navModeField = {
+  name: 'navMode',
+  type: 'select' as const,
+  options: [
+    { label: 'Sidebar Only', value: 'sidebar' },
+    { label: 'Navbar Only', value: 'navbar' },
+    { label: 'Mobile Only', value: 'mobile' },
+    { label: 'All Modes', value: 'both' },
+  ],
+  defaultValue: 'both',
+  required: true,
+}
+
+// Badge type select
+const badgeTypeField = {
+  name: 'type',
+  type: 'select' as const,
+  options: ['yellow', 'red', 'green', 'blue', 'indigo', 'purple', 'pink'],
+  defaultValue: 'blue',
+}
+
+// Sidebar blocks
+const SidebarGroupBlock: Block = {
+  slug: 'sidebarGroup',
+  labels: { singular: 'Group', plural: 'Groups' },
+  fields: [
+    navModeField,
+    {
+      name: 'items',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'href', type: 'text' },
+        iconField,
+      ],
+    },
+  ],
+}
+
+const SidebarCollapseBlock: Block = {
+  slug: 'sidebarCollapse',
+  labels: { singular: 'Collapse', plural: 'Collapses' },
+  fields: [
+    navModeField,
+    { name: 'label', type: 'text', required: true },
+    iconField,
+    {
+      name: 'items',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'href', type: 'text' },
+        iconField,
+      ],
+    },
+  ],
+}
+
+const SidebarCtaBlock: Block = {
+  slug: 'sidebarCta',
+  labels: { singular: 'CTA', plural: 'CTAs' },
+  fields: [
+    navModeField,
+    {
+      name: 'badge',
+      type: 'group',
+      fields: [
+        badgeTypeField,
+        { name: 'content', type: 'text', required: true },
+      ],
+    },
+    { name: 'description', type: 'textarea', required: true },
+    { name: 'actionText', type: 'text', required: true },
+    { name: 'actionHref', type: 'text', required: true },
+  ],
+}
+
+// Navbar blocks
+const NavbarLinkBlock: Block = {
+  slug: 'navbarLink',
+  labels: { singular: 'Link', plural: 'Links' },
+  fields: [
+    { name: 'label', type: 'text', required: true },
+    { name: 'href', type: 'text', required: true },
+    { name: 'external', type: 'checkbox', defaultValue: false },
+  ],
+}
+
+const NavbarDropdownBlock: Block = {
+  slug: 'navbarDropdown',
+  labels: { singular: 'Dropdown', plural: 'Dropdowns' },
+  fields: [
+    { name: 'label', type: 'text', required: true },
+    iconField,
+    {
+      name: 'items',
+      type: 'array',
+      fields: linkFields,
+    },
+  ],
+}
+
+export const Layouts: CollectionConfig = {
+  slug: 'layouts',
+  admin: {
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'updatedAt'],
+  },
+  access: {
+    read: () => true,
+  },
+  fields: [
+    // Layout name
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      admin: { description: 'e.g., "Marketing Layout", "Dashboard Layout"' },
+    },
+
+    // Dashboard mode toggle
+    {
+      name: 'dashboard',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Enable inline sidebar mode for dashboard pages' },
+    },
+
+    // Banner config (optional)
+    {
+      name: 'banner',
+      type: 'group',
+      admin: { condition: (_, { enableBanner }) => enableBanner },
+      fields: [
+        { name: 'id', type: 'text' },
+        { name: 'visible', type: 'checkbox', defaultValue: true },
+        { name: 'dismissible', type: 'checkbox', defaultValue: true },
+        { name: 'sticky', type: 'checkbox', defaultValue: true },
+        { ...iconField, required: true },
+        { name: 'content', type: 'text', required: true },
+        {
+          name: 'link',
+          type: 'group',
+          fields: linkFields,
+        },
+      ],
+    },
+    {
+      name: 'enableBanner',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { position: 'sidebar' },
+    },
+
+    // Navbar items
+    {
+      name: 'navbar',
+      type: 'blocks',
+      blocks: [NavbarLinkBlock, NavbarDropdownBlock],
+      label: 'Navbar Items',
+    },
+
+    // Sidebar items
+    {
+      name: 'sidebar',
+      type: 'blocks',
+      blocks: [SidebarGroupBlock, SidebarCollapseBlock, SidebarCtaBlock],
+      label: 'Sidebar Items',
+    },
+  ],
+}
+```
+
+---
+
+## Add Layout Relationship to Pages/Posts
+
+```typescript
+// In Pages collection, add:
+{
+  name: 'layout',
+  type: 'relationship',
+  relationTo: 'layouts',
+  required: true,
+  admin: {
+    position: 'sidebar',
+    description: 'Select the navigation layout for this page',
+  },
+}
+
+// Same for Posts, Products, or any other content collection
+```
+
+---
+
+## Mapper: Payload Layout → LayoutConfigType
+
+```typescript
+// utils/mapPayloadToLayout.ts
+import type {
+  LayoutConfigType,
+  BannerConfig,
+  NavbarItemConfig,
+  SidebarItemGroupConfig,
+} from '~/contexts/layout-config'
+import type { FlowbiteIconName } from '~/utils/flowbite-icons'
+
+interface PayloadLayout {
+  name: string
+  dashboard: boolean
+  enableBanner: boolean
+  banner?: {
+    id?: string
+    visible?: boolean
+    dismissible?: boolean
+    sticky?: boolean
+    icon: string
+    content: string
+    link?: {
+      label: string
+      href: string
+      external?: boolean
+      underline?: boolean
+    }
+  }
+  navbar?: PayloadNavbarItem[]
+  sidebar?: PayloadSidebarItem[]
+}
+
+interface PayloadNavbarItem {
+  blockType: 'navbarLink' | 'navbarDropdown'
+  label: string
+  href?: string
+  external?: boolean
+  icon?: string
+  items?: Array<{ label: string; href: string; external?: boolean; underline?: boolean }>
+}
+
+interface PayloadSidebarItem {
+  blockType: 'sidebarGroup' | 'sidebarCollapse' | 'sidebarCta'
+  navMode: 'sidebar' | 'navbar' | 'mobile' | 'both'
+  label?: string
+  icon?: string
+  items?: Array<{ label: string; href?: string; icon?: string }>
+  badge?: { type: string; content: string }
+  description?: string
+  actionText?: string
+  actionHref?: string
+}
+
+export function mapPayloadToLayout(layout: PayloadLayout): Omit<LayoutConfigType, 'dashboard'> & { dashboard: boolean } {
+  // Map banner
+  const bannerConfig: BannerConfig | null = layout.enableBanner && layout.banner
+    ? {
+        id: layout.banner.id,
+        visible: layout.banner.visible,
+        dismissible: layout.banner.dismissible,
+        sticky: layout.banner.sticky,
+        icon: layout.banner.icon as FlowbiteIconName,
+        content: layout.banner.content,
+        link: layout.banner.link,
+      }
+    : null
+
+  // Map navbar items
+  const appNavbarConfig: NavbarItemConfig[] | null = layout.navbar?.map((item): NavbarItemConfig => {
+    if (item.blockType === 'navbarLink') {
+      return {
+        type: 'link',
+        label: item.label,
+        href: item.href || '#',
+        external: item.external,
+      }
+    } else {
+      return {
+        type: 'dropdown',
+        label: item.label,
+        icon: item.icon as FlowbiteIconName | undefined,
+        items: item.items || [],
+      }
+    }
+  }) || null
+
+  // Map sidebar items
+  const appSidebarConfig: SidebarItemGroupConfig[] | null = layout.sidebar?.map((item): SidebarItemGroupConfig => {
+    if (item.blockType === 'sidebarGroup') {
+      return {
+        type: 'group',
+        navMode: item.navMode,
+        items: item.items?.map(i => ({
+          label: i.label,
+          href: i.href,
+          icon: i.icon as FlowbiteIconName | undefined,
+        })) || [],
+      }
+    } else if (item.blockType === 'sidebarCollapse') {
+      return {
+        type: 'collapse',
+        navMode: item.navMode,
+        label: item.label || '',
+        icon: item.icon as FlowbiteIconName | undefined,
+        items: item.items?.map(i => ({
+          label: i.label,
+          href: i.href,
+          icon: i.icon as FlowbiteIconName | undefined,
+        })) || [],
+      }
+    } else {
+      return {
+        type: 'cta',
+        navMode: item.navMode,
+        badge: {
+          type: (item.badge?.type || 'blue') as any,
+          content: item.badge?.content || '',
+        },
+        description: item.description || '',
+        actionText: item.actionText || '',
+        actionHref: item.actionHref || '#',
+      }
+    }
+  }) || null
+
+  return {
+    dashboard: layout.dashboard,
+    bannerConfig,
+    appNavbarConfig,
+    appSidebarConfig,
+  }
+}
+```
+
+---
+
+## Usage Example
+
+```typescript
+// routes/[slug]/index.tsx
+import { component$ } from '@builder.io/qwik'
+import { routeLoader$ } from '@builder.io/qwik-city'
+import { AppPage } from '~/components/page/app-page/app-page'
+import { mapPayloadToAppPage } from '~/utils/mapPayloadToAppPage'
+import { mapPayloadToLayout } from '~/utils/mapPayloadToLayout'
+import { sdk } from '~/lib/payload-sdk'
+
+export const usePageData = routeLoader$(async ({ params, status }) => {
+  const page = await sdk.collections.pages.findOne({
+    where: { slug: { equals: params.slug } },
+    depth: 2, // Populate layout relationship
+  })
+
+  if (!page) {
+    status(404)
+    return null
+  }
+
+  return {
+    sections: mapPayloadToAppPage(page),
+    layout: mapPayloadToLayout(page.layout), // Populated relationship
+    meta: page.meta,
+    card: page.card,
+  }
+})
+
+export default component$(() => {
+  const pageData = usePageData()
+
+  if (!pageData.value) {
+    return <div>Page not found</div>
+  }
+
+  // The layout data would be passed to a layout provider or AppMainLayout
+  // via context or props
+
+  return <AppPage sections={pageData.value.sections} />
+})
+```
+
+---
+
+## Summary: Layouts Architecture
+
+```
+┌─────────────────┐     ┌─────────────────┐
+│  Layouts        │     │  Pages          │
+│  Collection     │◄────│  Collection     │
+├─────────────────┤     ├─────────────────┤
+│ - name          │     │ - slug          │
+│ - dashboard     │     │ - card (group)  │
+│ - banner        │     │ - meta (group)  │
+│ - navbar[]      │     │ - sections[]    │
+│ - sidebar[]     │     │ - layout (rel)  │
+└─────────────────┘     └─────────────────┘
+         │
+         ├──────────────────┐
+         ▼                  ▼
+┌─────────────────┐  ┌─────────────────┐
+│  Posts          │  │  Products       │
+│  Collection     │  │  Collection     │
+├─────────────────┤  ├─────────────────┤
+│ - layout (rel)  │  │ - layout (rel)  │
+└─────────────────┘  └─────────────────┘
+```
+
+This allows:
+- **Reusable layouts** - Multiple pages can share the same navigation
+- **Per-route navigation** - Different pages can have different layouts
+- **No globals needed** - Everything is content-managed
+- **Efficient queries** - Fetch layout once, cache it, or populate with page
+
